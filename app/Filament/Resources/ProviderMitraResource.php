@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\ProviderMitraExporter;
+use App\Filament\Imports\ProviderMitraImporter;
 use App\Filament\Resources\ProviderMitraResource\Pages;
 use App\Filament\Resources\ProviderMitraResource\RelationManagers;
 use App\Models\ProviderMitra;
@@ -10,6 +12,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -94,6 +98,10 @@ class ProviderMitraResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(ProviderMitraExporter::class),
+                ImportAction::make()->importer(ProviderMitraImporter::class)
             ]);
     }
 

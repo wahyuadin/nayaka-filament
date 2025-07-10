@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\KotaExporter;
+use App\Filament\Imports\KotaImporter;
 use App\Filament\Resources\KotaResource\Pages;
 use App\Filament\Resources\KotaResource\RelationManagers;
 use App\Models\Kota;
@@ -13,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -42,52 +44,55 @@ class KotaResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('nama')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                Filter::make('nama')
-                    ->form([
-                        TextInput::make('nama')->label('Cari Nama'),
-                    ])
-                    ->query(function ($query, array $data) {
-                        return $query
-                            ->when($data['nama'], fn($q) => $q->where('nama', 'like', "%{$data['nama']}%"));
-                    }),
+    return $table
+        ->query(
+            Kota::query() // Pastikan ini Eloquent\Builder, akan lazy by default
+        )
+        ->columns([
+            TextColumn::make('nama')
+                ->searchable()
+                ->sortable(),
+            TextColumn::make('created_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
+            TextColumn::make('updated_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
+        ])
+        ->filters([
+            Filter::make('nama')
+                ->form([
+                    TextInput::make('nama')->label('Cari Nama'),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query->when($data['nama'], fn($q) => $q->where('nama', 'like', "%{$data['nama']}%"));
+                }),
 
-                Filter::make('created_from')
-                    ->form([
-                        DatePicker::make('created_from')->label('Dari Tanggal'),
-                        DatePicker::make('created_until')->label('Sampai Tanggal'),
-                    ])
-                    ->query(function ($query, array $data) {
-                        return $query
-                            ->when($data['created_from'], fn($q) => $q->whereDate('created_at', '>=', $data['created_from']))
-                            ->when($data['created_until'], fn($q) => $q->whereDate('created_at', '<=', $data['created_until']));
-                    }),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->headerActions([
-                ExportAction::make()->exporter(KotaExporter::class)
-            ]);
+            Filter::make('created_from')
+                ->form([
+                    DatePicker::make('created_from')->label('Dari Tanggal'),
+                    DatePicker::make('created_until')->label('Sampai Tanggal'),
+                ])
+                ->query(function ($query, array $data) {
+                    return $query
+                        ->when($data['created_from'], fn($q) => $q->whereDate('created_at', '>=', $data['created_from']))
+                        ->when($data['created_until'], fn($q) => $q->whereDate('created_at', '<=', $data['created_until']));
+                }),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ])
+        ->headerActions([
+            ExportAction::make()->exporter(KotaExporter::class),
+            ImportAction::make()->importer(KotaImporter::class)
+        ]);
     }
 
     public static function getRelations(): array
@@ -101,7 +106,7 @@ class KotaResource extends Resource
     {
         return [
             'index' => Pages\ListKotas::route('/'),
-            'create' => Pages\CreateKota::route('/create'),
+            // 'create' => Pages\CreateKota::route('/create'),
             'edit' => Pages\EditKota::route('/{record}/edit'),
         ];
     }

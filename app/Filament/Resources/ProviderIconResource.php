@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\ProviderMitraExporter;
 use App\Filament\Resources\ProviderIconResource\Pages;
 use App\Filament\Resources\ProviderIconResource\RelationManagers;
 use App\Models\ProviderIcon;
@@ -11,6 +12,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -89,7 +91,7 @@ class ProviderIconResource extends Resource
     {
         return [
             'index' => Pages\ListProviderIcons::route('/'),
-            'create' => Pages\CreateProviderIcon::route('/create'),
+            // 'create' => Pages\CreateProviderIcon::route('/create'),
             'edit' => Pages\EditProviderIcon::route('/{record}/edit'),
         ];
     }

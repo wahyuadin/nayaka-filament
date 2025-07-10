@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\KontakFormExporter;
 use App\Filament\Resources\FaqResource\Pages;
 use App\Filament\Resources\FaqResource\RelationManagers;
 use App\Models\Faq;
@@ -9,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -77,7 +79,7 @@ class FaqResource extends Resource
     {
         return [
             'index' => Pages\ListFaqs::route('/'),
-            'create' => Pages\CreateFaq::route('/create'),
+            // 'create' => Pages\CreateFaq::route('/create'),
             'edit' => Pages\EditFaq::route('/{record}/edit'),
         ];
     }

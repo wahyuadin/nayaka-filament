@@ -103,7 +103,7 @@ class SlideHomeResource extends Resource
     {
         return [
             'index' => Pages\ListSlideHomes::route('/'),
-            'create' => Pages\CreateSlideHome::route('/create'),
+            // 'create' => Pages\CreateSlideHome::route('/create'),
             'edit' => Pages\EditSlideHome::route('/{record}/edit'),
         ];
     }
