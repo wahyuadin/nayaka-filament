@@ -28,7 +28,7 @@ class AboutHomeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
     protected static ?string $navigationGroup = 'About';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
     protected static ?string $pluralModelLabel = 'Page About Home';
     protected static ?string $navigationLabel = 'Home';
 
@@ -56,6 +56,14 @@ class AboutHomeResource extends Resource
                     FileUpload::make('image')
                         ->image()
                         ->required()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->directory('about')
                         ->label('Gambar'),
                 ]),
             ]);

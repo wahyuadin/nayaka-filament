@@ -7,9 +7,15 @@ use App\Filament\Resources\SlideHomeResource\RelationManagers;
 use App\Models\SlideHome;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,14 +36,26 @@ class SlideHomeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama')
+                TextInput::make('nama')
                     ->required()
+                    ->columnSpanFull()
+                    ->placeholder('Masukan Nama')
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
+                FileUpload::make('image')
                     ->image()
+                    ->columnSpanFull()
+                    ->directory('slide')
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
                     ->required(),
-                Forms\Components\Toggle::make('is_active')
-                    ->required(),
+                Toggle::make('is_active')
+                    ->required()
+                    ->default(true),
             ]);
     }
 
@@ -45,16 +63,18 @@ class SlideHomeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('nama')
+                    ->searchable()
+                    ->sortable(),
+                ImageColumn::make('image'),
+                IconColumn::make('is_active')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -2,42 +2,42 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PartnerKamiResource\Pages;
-use App\Filament\Resources\PartnerKamiResource\RelationManagers;
-use App\Models\PartnerKami;
+use App\Filament\Resources\WhyusHomeResource\Pages;
+use App\Filament\Resources\WhyusHomeResource\RelationManagers;
+use App\Models\WhyusHome;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PartnerKamiResource extends Resource
+class WhyusHomeResource extends Resource
 {
-    protected static ?string $model = PartnerKami::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
-    protected static ?string $pluralModelLabel = 'Data Slide Awal';
-    protected static ?string $navigationLabel = 'Partner';
-    protected static ?string $navigationGroup = 'Home';
+    protected static ?string $model = WhyusHome::class;
+    protected static ?string $pluralModelLabel = 'Why Us Postingan';
+    protected static ?string $navigationLabel = 'Why Us';
+    protected static ?string $navigationIcon = 'heroicon-o-cursor-arrow-ripple';
     protected static ?int $navigationSort = 4;
+    protected static ?string $navigationGroup = 'Home';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FileUpload::make('image') // kolom image ganti jadi multiple
+                TextInput::make('title')
+                    ->required()
+                    ->columnSpanFull()
+                    ->maxLength(255),
+                Textarea::make('description')
+                    ->required()
+                    ->columnSpanFull(),
+                FileUpload::make('image')
                     ->image()
-                    // ->multiple()
-                    ->directory('partner')
-                    ->reorderable()
-                    ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,
@@ -45,13 +45,9 @@ class PartnerKamiResource extends Resource
                         '4:3',
                         '1:1',
                     ])
-                    ->preserveFilenames()
+                    ->directory('why-us')
                     ->columnSpanFull()
                     ->required(),
-
-                Toggle::make('is_active')
-                    ->required()
-                    ->default(true),
             ]);
     }
 
@@ -59,15 +55,14 @@ class PartnerKamiResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
-                IconColumn::make('is_active')
-                    ->boolean()
-                    ->sortable(),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -95,9 +90,9 @@ class PartnerKamiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPartnerKamis::route('/'),
-            // 'create' => Pages\CreatePartnerKami::route('/create'),
-            'edit' => Pages\EditPartnerKami::route('/{record}/edit'),
+            'index' => Pages\ListWhyusHomes::route('/'),
+            'create' => Pages\CreateWhyusHome::route('/create'),
+            'edit' => Pages\EditWhyusHome::route('/{record}/edit'),
         ];
     }
 }

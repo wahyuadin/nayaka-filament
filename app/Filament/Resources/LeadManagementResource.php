@@ -31,15 +31,25 @@ class LeadManagementResource extends Resource
             ->schema([
                 FileUpload::make('image') // kolom image ganti jadi multiple
                     ->image()
-                    ->multiple()
+                    // ->multiple()
+                    ->avatar()
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
                     ->directory('lead-management')
                     ->reorderable()
                     ->preserveFilenames()
                     ->disk('public')
+                    ->columnSpanFull()
                     ->required(),
 
                 Toggle::make('is_active')
-                    ->required(),
+                    ->required()
+                    ->default(true),
             ]);
     }
 
@@ -88,7 +98,7 @@ class LeadManagementResource extends Resource
     {
         return [
             'index' => Pages\ListLeadManagement::route('/'),
-            'create' => Pages\CreateLeadManagement::route('/create'),
+            // 'create' => Pages\CreateLeadManagement::route('/create'),
             'edit' => Pages\EditLeadManagement::route('/{record}/edit'),
         ];
     }

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PartnerKamiResource\Pages;
-use App\Filament\Resources\PartnerKamiResource\RelationManagers;
-use App\Models\PartnerKami;
+use App\Filament\Resources\ProviderIconResource\Pages;
+use App\Filament\Resources\ProviderIconResource\RelationManagers;
+use App\Models\ProviderIcon;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
@@ -18,25 +18,19 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PartnerKamiResource extends Resource
+class ProviderIconResource extends Resource
 {
-    protected static ?string $model = PartnerKami::class;
+    protected static ?string $model = ProviderIcon::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
-    protected static ?string $pluralModelLabel = 'Data Slide Awal';
-    protected static ?string $navigationLabel = 'Partner';
-    protected static ?string $navigationGroup = 'Home';
-    protected static ?int $navigationSort = 4;
-
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Provider';
+    protected static ?int $navigationSort = 6;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FileUpload::make('image') // kolom image ganti jadi multiple
-                    ->image()
-                    // ->multiple()
-                    ->directory('partner')
-                    ->reorderable()
+                FileUpload::make('image')
+                    ->required()
                     ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
@@ -45,13 +39,13 @@ class PartnerKamiResource extends Resource
                         '4:3',
                         '1:1',
                     ])
-                    ->preserveFilenames()
                     ->columnSpanFull()
-                    ->required(),
-
+                    ->reorderable()
+                    ->directory('provider')
+                    ->image(),
                 Toggle::make('is_active')
                     ->required()
-                    ->default(true),
+                    ->default(true)
             ]);
     }
 
@@ -61,8 +55,7 @@ class PartnerKamiResource extends Resource
             ->columns([
                 ImageColumn::make('image'),
                 IconColumn::make('is_active')
-                    ->boolean()
-                    ->sortable(),
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -95,9 +88,18 @@ class PartnerKamiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPartnerKamis::route('/'),
-            // 'create' => Pages\CreatePartnerKami::route('/create'),
-            'edit' => Pages\EditPartnerKami::route('/{record}/edit'),
+            'index' => Pages\ListProviderIcons::route('/'),
+            'create' => Pages\CreateProviderIcon::route('/create'),
+            'edit' => Pages\EditProviderIcon::route('/{record}/edit'),
         ];
     }
+
+    // public static function canCreate(): bool
+    // {
+    //     if (ProviderIcon::count()) {
+    //         return false;
+    //     }
+
+    //     return true;
+    // }
 }

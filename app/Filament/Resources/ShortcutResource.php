@@ -2,42 +2,31 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PartnerKamiResource\Pages;
-use App\Filament\Resources\PartnerKamiResource\RelationManagers;
-use App\Models\PartnerKami;
+use App\Filament\Resources\ShortcutResource\Pages;
+use App\Filament\Resources\ShortcutResource\RelationManagers;
+use App\Models\Shortcut;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PartnerKamiResource extends Resource
+class ShortcutResource extends Resource
 {
-    protected static ?string $model = PartnerKami::class;
+    protected static ?string $model = Shortcut::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
-    protected static ?string $pluralModelLabel = 'Data Slide Awal';
-    protected static ?string $navigationLabel = 'Partner';
+    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
     protected static ?string $navigationGroup = 'Home';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FileUpload::make('image') // kolom image ganti jadi multiple
+                Forms\Components\FileUpload::make('image')
                     ->image()
-                    // ->multiple()
-                    ->directory('partner')
-                    ->reorderable()
-                    ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,
@@ -45,13 +34,17 @@ class PartnerKamiResource extends Resource
                         '4:3',
                         '1:1',
                     ])
-                    ->preserveFilenames()
-                    ->columnSpanFull()
-                    ->required(),
-
-                Toggle::make('is_active')
+                    ->avatar()
+                    ->directory('shortcut')
                     ->required()
-                    ->default(true),
+                    ->openable()
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->placeholder('Masukan Judul')
+                    ->label('Judul')
+                    ->columnSpanFull()
+                    ->maxLength(255),
             ]);
     }
 
@@ -59,15 +52,14 @@ class PartnerKamiResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
-                IconColumn::make('is_active')
-                    ->boolean()
-                    ->sortable(),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -95,9 +87,9 @@ class PartnerKamiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPartnerKamis::route('/'),
-            // 'create' => Pages\CreatePartnerKami::route('/create'),
-            'edit' => Pages\EditPartnerKami::route('/{record}/edit'),
+            'index' => Pages\ListShortcuts::route('/'),
+            // 'create' => Pages\CreateShortcut::route('/create'),
+            'edit' => Pages\EditShortcut::route('/{record}/edit'),
         ];
     }
 }

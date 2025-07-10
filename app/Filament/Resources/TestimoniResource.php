@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PartnerKamiResource\Pages;
-use App\Filament\Resources\PartnerKamiResource\RelationManagers;
-use App\Models\PartnerKami;
+use App\Filament\Resources\TestimoniResource\Pages;
+use App\Filament\Resources\TestimoniResource\RelationManagers;
+use App\Models\Testimoni;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -18,26 +20,32 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PartnerKamiResource extends Resource
+class TestimoniResource extends Resource
 {
-    protected static ?string $model = PartnerKami::class;
+    protected static ?string $model = Testimoni::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
-    protected static ?string $pluralModelLabel = 'Data Slide Awal';
-    protected static ?string $navigationLabel = 'Partner';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-asia-australia';
     protected static ?string $navigationGroup = 'Home';
-    protected static ?int $navigationSort = 4;
-
+    protected static ?int $navigationSort = 9;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FileUpload::make('image') // kolom image ganti jadi multiple
+                TextInput::make('nama')
+                    ->required()
+                    ->placeholder('Masukan Nama')
+                    ->maxLength(255),
+                TextInput::make('sub_nama')
+                    ->placeholder('Masukan Sub Nama')
+                    ->required()
+                    ->maxLength(255),
+                Textarea::make('komentar')
+                    ->required()
+                    ->placeholder('Masukan Komentar')
+                    ->columnSpanFull(),
+                FileUpload::make('image')
                     ->image()
-                    // ->multiple()
-                    ->directory('partner')
-                    ->reorderable()
-                    ->avatar()
+                    ->directory('testimoni')
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,
@@ -45,13 +53,12 @@ class PartnerKamiResource extends Resource
                         '4:3',
                         '1:1',
                     ])
-                    ->preserveFilenames()
+                    ->avatar()
                     ->columnSpanFull()
                     ->required(),
-
                 Toggle::make('is_active')
                     ->required()
-                    ->default(true),
+                    ->default(true)
             ]);
     }
 
@@ -59,10 +66,16 @@ class PartnerKamiResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('nama')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('sub_nama')
+                    ->searchable()
+                    ->sortable(),
                 ImageColumn::make('image'),
                 IconColumn::make('is_active')
-                    ->boolean()
-                    ->sortable(),
+                    ->sortable()
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -95,9 +108,9 @@ class PartnerKamiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPartnerKamis::route('/'),
-            // 'create' => Pages\CreatePartnerKami::route('/create'),
-            'edit' => Pages\EditPartnerKami::route('/{record}/edit'),
+            'index' => Pages\ListTestimonis::route('/'),
+            'create' => Pages\CreateTestimoni::route('/create'),
+            'edit' => Pages\EditTestimoni::route('/{record}/edit'),
         ];
     }
 }

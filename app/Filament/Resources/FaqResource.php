@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AboutModalResource\Pages;
-use App\Filament\Resources\AboutModalResource\RelationManagers;
-use App\Models\AboutModal;
+use App\Filament\Resources\FaqResource\Pages;
+use App\Filament\Resources\FaqResource\RelationManagers;
+use App\Models\Faq;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,25 +13,23 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
-class AboutModalResource extends Resource
+class FaqResource extends Resource
 {
-    protected static ?string $model = AboutModal::class;
+    protected static ?string $model = Faq::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
-    protected static ?string $navigationGroup = 'About';
-    protected static ?int $navigationSort = 5;
-    protected static ?string $pluralModelLabel = 'Page About Modal';
-    protected static ?string $navigationLabel = 'Modal';
-
+    protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+    protected static ?string $navigationGroup = 'Home';
+    protected static ?int $navigationSort = 10;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TinyEditor::make('content')
+                Forms\Components\Textarea::make('pertanyaan')
                     ->required()
-                    ->label('Konten')
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('jawaban')
+                    ->required()
                     ->columnSpanFull(),
             ]);
     }
@@ -40,7 +38,12 @@ class AboutModalResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('content')->limit(50),
+                TextColumn::make('pertanyaan')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('jawaban')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -73,18 +76,9 @@ class AboutModalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAboutModals::route('/'),
-            'create' => Pages\CreateAboutModal::route('/create'),
-            'edit' => Pages\EditAboutModal::route('/{record}/edit'),
+            'index' => Pages\ListFaqs::route('/'),
+            'create' => Pages\CreateFaq::route('/create'),
+            'edit' => Pages\EditFaq::route('/{record}/edit'),
         ];
-    }
-
-    public static function canCreate(): bool
-    {
-        if (AboutModal::count()) {
-            return false;
-        }
-
-        return true;
     }
 }
