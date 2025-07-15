@@ -33,7 +33,7 @@ class ProviderIconResource extends Resource
             ->schema([
                 FileUpload::make('image')
                     ->required()
-                    ->avatar()
+                    // ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,

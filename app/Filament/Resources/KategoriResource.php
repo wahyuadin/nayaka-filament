@@ -57,7 +57,7 @@ class KategoriResource extends Resource
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -72,7 +72,7 @@ class KategoriResource extends Resource
                         return $query
                             ->when($data['nama'], fn($q) => $q->where('nama', 'like', "%{$data['nama']}%"));
                     }),
-                    Filter::make('created_from')
+                Filter::make('created_from')
                     ->form([
                         DatePicker::make('created_from')->label('Dari Tanggal'),
                         DatePicker::make('created_until')->label('Sampai Tanggal'),

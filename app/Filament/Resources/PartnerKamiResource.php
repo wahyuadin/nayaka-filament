@@ -37,7 +37,7 @@ class PartnerKamiResource extends Resource
                     // ->multiple()
                     ->directory('partner')
                     ->reorderable()
-                    ->avatar()
+                    // ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,

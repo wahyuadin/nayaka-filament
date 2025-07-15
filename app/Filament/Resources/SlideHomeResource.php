@@ -13,11 +13,14 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SlideHomeResource extends Resource
@@ -44,6 +47,7 @@ class SlideHomeResource extends Resource
                 FileUpload::make('image')
                     ->image()
                     ->columnSpanFull()
+                    ->downloadable()
                     ->directory('slide')
                     ->imageEditor()
                     ->imageEditorAspectRatios([
@@ -66,7 +70,8 @@ class SlideHomeResource extends Resource
                 TextColumn::make('nama')
                     ->searchable()
                     ->sortable(),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->square(),
                 IconColumn::make('is_active')
                     ->boolean()
                     ->sortable(),
@@ -86,8 +91,8 @@ class SlideHomeResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    // DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -106,5 +111,10 @@ class SlideHomeResource extends Resource
             // 'create' => Pages\CreateSlideHome::route('/create'),
             'edit' => Pages\EditSlideHome::route('/{record}/edit'),
         ];
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
     }
 }

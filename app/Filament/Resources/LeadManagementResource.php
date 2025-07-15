@@ -11,6 +11,12 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -32,7 +38,7 @@ class LeadManagementResource extends Resource
                 FileUpload::make('image') // kolom image ganti jadi multiple
                     ->image()
                     // ->multiple()
-                    ->avatar()
+                    // ->avatar()
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,
@@ -43,6 +49,7 @@ class LeadManagementResource extends Resource
                     ->directory('lead-management')
                     ->reorderable()
                     ->preserveFilenames()
+                    ->downloadable()
                     ->disk('public')
                     ->columnSpanFull()
                     ->required(),
@@ -57,17 +64,18 @@ class LeadManagementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label('Gambar'),
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->boolean()
+                    ->sortable()
                     ->label('is Active'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->toggleable(isToggledHiddenByDefault: false)
                     ->label('Dibuat Pada'),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -76,13 +84,13 @@ class LeadManagementResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                EditAction::make()
                     ->label('Edit')
                     ->icon('heroicon-m-pencil'),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

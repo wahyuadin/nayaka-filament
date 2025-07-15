@@ -72,7 +72,9 @@ class TestimoniResource extends Resource
                 TextColumn::make('sub_nama')
                     ->searchable()
                     ->sortable(),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->circular()
+                    ->size(60),
                 IconColumn::make('is_active')
                     ->sortable()
                     ->boolean(),
