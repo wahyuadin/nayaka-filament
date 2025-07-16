@@ -29,7 +29,7 @@
                                  <a class="nav-link scroll-link dropdown-item" href="#about">Tentang Kami</a>
                              </li>
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="management.html">Tim Management</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ route('management.index') }}">Tim Management</a>
                              </li>
                          </ul>
                      </li>
@@ -41,16 +41,16 @@
 
                          <ul class="dropdown-menu">
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="klinik-nayaka.html">Klinik</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ route('layanan.klinik') }}">Klinik</a>
                              </li>
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="https://nayakaerahusada.com/layanan/provider">Provider</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ route('layanan.provider') }}">Provider</a>
                              </li>
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="https://nayakaerahusada.com/layanan/inhouse">Kerjasama Perusahaan</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ route('layanan.inhouse') }}">Kerjasama Perusahaan</a>
                              </li>
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="https://nayakaerahusada.com/layanan/download_formulir" data-bs-toggle="dropdown" aria-expanded="false">Download Formulir</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ route('layanan.download') }}">Download Formulir</a>
                              </li>
                              <li>
                                  <a class="nav-link scroll-link" href="#faqu">FAQ</a>
@@ -61,7 +61,7 @@
                          <a class="nav-link scroll-link" href="#services"><b>Kegiatan</b></a>
                      </li>
                      <li class="nav-item">
-                         <a class="nav-link scroll-link" href="https://new.nayakaerahusada.com/info/karir"><b>Karir</b></a>
+                         <a class="nav-link scroll-link" href="{{ route('carrier.index') }}"><b>Karir</b></a>
                      </li>
                      <li class="nav-item">
                          <a class="nav-link scroll-link" href="https://new.nayakaerahusada.com/kontak"><b>Kontak</b></a>
@@ -94,7 +94,7 @@
                              </li>
                          </ul>
                          <div class="d-grid d-lg-block">
-                             <a href="{{ url('panel') }}" class="btn btn-warning d-inline-flex align-items-center justify-content-center fw-bold px-2 py-1" style="
+                             <a target="_blank" href="{{ url('panel') }}" class="btn btn-warning d-inline-flex align-items-center justify-content-center fw-bold px-2 py-1" style="
                                             font-size: 0.8rem;
                                             letter-spacing: 0.01em;
                                             box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);

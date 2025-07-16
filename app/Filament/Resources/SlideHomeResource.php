@@ -3,10 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SlideHomeResource\Pages;
-use App\Filament\Resources\SlideHomeResource\RelationManagers;
 use App\Models\SlideHome;
-use Filament\Actions\Action;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -14,14 +11,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SlideHomeResource extends Resource
 {
@@ -57,7 +51,24 @@ class SlideHomeResource extends Resource
                         '1:1',
                     ])
                     ->required(),
+                Toggle::make('first_slide')
+                    ->label('Tampilan Slide Pertama')
+                    ->helperText('Aktifkan untuk menampilkan slide ini di halaman beranda')
+                    ->default(true)
+                    ->disabled(function ($state, $get, $set, $livewire) {
+                        $recordId = method_exists($livewire, 'getRecord') && $livewire->getRecord()
+                            ? $livewire->getRecord()->id
+                            : null;
+
+                        return \App\Models\SlideHome::where('first_slide', true)
+                            ->when($recordId, function ($query) use ($recordId) {
+                                $query->where('id', '!=', $recordId);
+                            })
+                            ->exists();
+                    }),
                 Toggle::make('is_active')
+                    ->label('Is Active')
+                    ->helperText('Aktifkan untuk menampilkan slide ini di halaman beranda')
                     ->required()
                     ->default(true),
             ]);
@@ -71,8 +82,11 @@ class SlideHomeResource extends Resource
                     ->searchable()
                     ->sortable(),
                 ImageColumn::make('image')
-                    ->square(),
+                    ->label('Image'),
                 IconColumn::make('is_active')
+                    ->boolean()
+                    ->sortable(),
+                IconColumn::make('first_slide')
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('created_at')

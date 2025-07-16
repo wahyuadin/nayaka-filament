@@ -2,40 +2,48 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\ProviderMitraExporter;
-use App\Filament\Resources\ProviderIconResource\Pages;
-use App\Filament\Resources\ProviderIconResource\RelationManagers;
-use App\Models\ProviderIcon;
+use App\Filament\Resources\WhyUsResource\Pages;
+use App\Filament\Resources\WhyUsResource\RelationManagers;
+use App\Models\WhyUs;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ExportAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
-class ProviderIconResource extends Resource
+class WhyUsResource extends Resource
 {
-    protected static ?string $model = ProviderIcon::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $model = WhyUs::class;
     protected static ?string $navigationGroup = 'Home';
     protected static ?int $navigationSort = 5;
-    protected static ?string $pluralModelLabel = 'Provider Icon';
-    protected static ?string $navigationLabel = 'Provider';
+    protected static ?string $navigationIcon = 'heroicon-o-cursor-arrow-ripple';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                FileUpload::make('image')
+                TextInput::make('title')
                     ->required()
-                    // ->avatar()
+                    ->placeholder('Masukan Judul')
+                    ->columnSpanFull()
+                    ->maxLength(255),
+                TinyEditor::make('content')
+                    ->required()
+                    ->label('Deskripsi')
+                    ->columnSpanFull(),
+                FileUpload::make('image')
+                    ->image()
+                    ->columnSpanFull()
+                    ->downloadable()
+                    ->directory('why-us')
                     ->imageEditor()
                     ->imageEditorAspectRatios([
                         null,
@@ -43,13 +51,7 @@ class ProviderIconResource extends Resource
                         '4:3',
                         '1:1',
                     ])
-                    ->columnSpanFull()
-                    ->reorderable()
-                    ->directory('provider')
-                    ->image(),
-                Toggle::make('is_active')
-                    ->required()
-                    ->default(true)
+                    ->required(),
             ]);
     }
 
@@ -57,9 +59,15 @@ class ProviderIconResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('content')
+                    ->html()
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ImageColumn::make('image'),
-                IconColumn::make('is_active')
-                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -92,18 +100,23 @@ class ProviderIconResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProviderIcons::route('/'),
-            // 'create' => Pages\CreateProviderIcon::route('/create'),
-            'edit' => Pages\EditProviderIcon::route('/{record}/edit'),
+            'index' => Pages\ListWhyUs::route('/'),
+            // 'create' => Pages\CreateWhyUs::route('/create'),
+            'edit' => Pages\EditWhyUs::route('/{record}/edit'),
         ];
     }
 
-    // public static function canCreate(): bool
-    // {
-    //     if (ProviderIcon::count()) {
-    //         return false;
-    //     }
+    public static function canCreate(): bool
+    {
+        if (WhyUs::count() > 0) {
+            return false;
+        }
 
-    //     return true;
-    // }
+        return true;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false; // Prevent deletion of WhyUs records
+    }
 }

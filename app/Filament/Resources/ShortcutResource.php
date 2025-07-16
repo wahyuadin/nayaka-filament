@@ -6,9 +6,16 @@ use App\Filament\Resources\ShortcutResource\Pages;
 use App\Filament\Resources\ShortcutResource\RelationManagers;
 use App\Models\Shortcut;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,21 +32,17 @@ class ShortcutResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        null,
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                    ])
-                    ->avatar()
-                    ->directory('shortcut')
+                TextInput::make('link')
                     ->required()
-                    ->openable()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('title')
+                    ->placeholder('Masukan Link')
+                    ->label('Link')
+                    ->maxLength(255),
+                TextInput::make('icon')
+                    ->required()
+                    ->placeholder('Masukan Icon')
+                    ->label('Icon')
+                    ->maxLength(255),
+                TextInput::make('title')
                     ->required()
                     ->placeholder('Masukan Judul')
                     ->label('Judul')
@@ -52,14 +55,15 @@ class ShortcutResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('icon'),
+                TextColumn::make('link'),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -68,11 +72,11 @@ class ShortcutResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

@@ -6,6 +6,12 @@ use App\Models\LeadManagement;
 use App\Models\PartnerKami;
 use App\Models\SlideHome;
 use Illuminate\Http\Request;
+use App\Models\ProviderIcon;
+use App\Models\AboutHome;
+use App\Models\Faq;
+use App\Models\Produk;
+use App\Models\Testimoni;
+use App\Models\WhyUs;
 
 class BerandaController extends Controller
 {
@@ -16,8 +22,14 @@ class BerandaController extends Controller
     {
         return view('beranda.index', [
             'slide' => SlideHome::showData(),
-            'lead_management' => LeadManagement::orderBy('created_at', 'desc')->take(2)->get(),
+            'lead_management' => LeadManagement::showData(),
+            'about_us' => AboutHome::showData(),
             'partner_kami' => PartnerKami::showData(),
+            'provider_kami' => ProviderIcon::showData(),
+            'why_us' => WhyUs::showData(),
+            'produk' => Produk::showData(),
+            'testimoni' => Testimoni::showData(),
+            'faq' => Faq::showData(),
         ]);
     }
 

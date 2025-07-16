@@ -18,6 +18,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TestimoniResource extends Resource
@@ -47,6 +48,8 @@ class TestimoniResource extends Resource
                     ->image()
                     ->directory('testimoni')
                     ->imageEditor()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(5120) // 5MB
                     ->imageEditorAspectRatios([
                         null,
                         '16:9',
@@ -92,12 +95,12 @@ class TestimoniResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+        // ->bulkActions([
+        //     Tables\Actions\BulkActionGroup::make([
+        //         Tables\Actions\DeleteBulkAction::make(),
+        //     ]),
+        // ]);
     }
 
     public static function getRelations(): array
@@ -111,8 +114,13 @@ class TestimoniResource extends Resource
     {
         return [
             'index' => Pages\ListTestimonis::route('/'),
-            'create' => Pages\CreateTestimoni::route('/create'),
+            // 'create' => Pages\CreateTestimoni::route('/create'),
             'edit' => Pages\EditTestimoni::route('/{record}/edit'),
         ];
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
     }
 }

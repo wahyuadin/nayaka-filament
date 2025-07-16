@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->string('image');
+            $table->string('height_image')->nullable();
+            $table->string('width_image')->nullable();
+            $table->longText('content')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

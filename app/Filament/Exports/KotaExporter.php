@@ -14,11 +14,12 @@ class KotaExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
+            // ExportColumn::make('id')
+            //     ->label('ID'),
             ExportColumn::make('nama'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            ExportColumn::make('created_at')
+                ->label('Tanggal Dibuat'),
+            // ExportColumn::make('updated_at'),
         ];
     }
 

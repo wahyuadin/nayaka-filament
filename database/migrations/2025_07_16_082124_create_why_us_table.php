@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slide_homes', function (Blueprint $table) {
+        Schema::create('why_us', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('image');
-            $table->boolean('is_active');
-            $table->boolean('first_slide')->default(false);
+            $table->string('title');
+            $table->text('content');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('slide_homes');
+        Schema::dropIfExists('why_us');
     }
 };

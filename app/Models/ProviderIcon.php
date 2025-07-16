@@ -13,4 +13,9 @@ class ProviderIcon extends Model
     protected $casts = [
         'image' => 'array'
     ];
+
+    public static function showData($id = null)
+    {
+        return $id ? self::find($id) : self::where('is_active', true)->get();
+    }
 }

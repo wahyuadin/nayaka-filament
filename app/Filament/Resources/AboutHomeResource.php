@@ -27,10 +27,10 @@ class AboutHomeResource extends Resource
     protected static ?string $model = AboutHome::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
-    protected static ?string $navigationGroup = 'About';
-    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'Home';
+    protected static ?int $navigationSort = 4;
     protected static ?string $pluralModelLabel = 'Page About Home';
-    protected static ?string $navigationLabel = 'Home';
+    protected static ?string $navigationLabel = 'About Us';
 
     public static function form(Form $form): Form
     {
@@ -50,9 +50,7 @@ class AboutHomeResource extends Resource
                         ->label('Judul'),
                     TinyEditor::make('description')
                         ->required()
-                        ->label('Deskripsi')
-                ]),
-                Section::make([
+                        ->label('Deskripsi'),
                     FileUpload::make('image')
                         ->image()
                         ->required()
@@ -65,6 +63,9 @@ class AboutHomeResource extends Resource
                         ])
                         ->directory('about')
                         ->label('Gambar'),
+                    TinyEditor::make('content')
+                        ->required()
+                        ->label('Content')
                 ]),
             ]);
     }
@@ -75,11 +76,14 @@ class AboutHomeResource extends Resource
             ->columns([
                 TextColumn::make('label')
                     ->searchable()
-                    ->label('Thumnail'),
+                    ->label('Thumnail')
+                    ->sortable(),
                 TextColumn::make('title')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('description')
-                    ->limit(100),
+                    ->html()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ImageColumn::make('image'),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -114,7 +118,7 @@ class AboutHomeResource extends Resource
     {
         return [
             'index' => Pages\ListAboutHomes::route('/'),
-            'create' => Pages\CreateAboutHome::route('/create'),
+            // 'create' => Pages\CreateAboutHome::route('/create'),
             'edit' => Pages\EditAboutHome::route('/{record}/edit'),
         ];
     }

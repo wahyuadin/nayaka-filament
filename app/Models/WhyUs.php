@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Testimoni extends Model
+class WhyUs extends Model
 {
     use HasFactory;
     protected $guarded = [];
 
-    public static function showData($id = null)
+    public static function showData()
     {
-        return $id ? self::find($id) : self::where('is_active', true)->orderBy('created_at', 'ASC')->get();
+        return self::latest()->first();
     }
 }
