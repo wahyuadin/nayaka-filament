@@ -3,15 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FormulirResource\Pages;
-use App\Filament\Resources\FormulirResource\RelationManagers;
 use App\Models\Formulir;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FormulirResource extends Resource
 {
@@ -25,10 +23,22 @@ class FormulirResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nama_formulir')
                     ->required()
+                    ->columnSpanFull()
+                    ->label('Nama Formulir')
+                    ->placeholder('Masukan Nama Formulir')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('file_path')
+
+                FileUpload::make('file_path')
                     ->required()
-                    ->maxLength(255),
+                    ->label('File Path')
+                    ->placeholder('Pilih file formulir...')
+                    ->directory('formulir') // akan disimpan di storage/app/formulir
+                    ->columnSpanFull()
+                    ->preserveFilenames() // mempertahankan nama asli file
+                    ->maxSize(10240) // maks. 10 MB (dalam kilobytes)
+                    ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png'])
+                    ->visibility('private') // sesuaikan sesuai kebutuhan: 'public' atau 'private'
+
             ]);
     }
 
