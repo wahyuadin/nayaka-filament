@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('about_modals', function (Blueprint $table) {
+        Schema::create('formulirs', function (Blueprint $table) {
             $table->id();
-            $table->longText('content');
+            $table->string('nama_formulir');
+            $table->string('file_path');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('about_modals');
+        Schema::dropIfExists('formulirs');
     }
 };

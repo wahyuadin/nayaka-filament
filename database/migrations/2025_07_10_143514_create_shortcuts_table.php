@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('shortcuts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('image');
+            $table->string('link');
+            $table->string('icon');
+            $table->string('class');
             $table->timestamps();
         });
     }

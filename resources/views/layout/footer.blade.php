@@ -3,7 +3,7 @@
         <div class="row justify-content-between mb-5 g-xl-5">
             <div class="col-md-4 mb-5 mb-lg-0">
                 <div class="">
-                    <img class="" src="assets/footer_putih.png" width="230" alt="" />
+                    <img class="" src="{{ asset('assets/footer_putih.png') }}" width="230" alt="" />
                 </div>
                 <p class="mb-4 mt-3" style="text-align: justify">
                     <b>PT. Nayaka Era Husada</b> adalah anak perusahaan dari DPK

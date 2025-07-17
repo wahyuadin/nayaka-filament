@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Clinic;
+use App\Models\Inhouse;
+use App\Models\provider;
 
 class LayananController extends Controller
 {
     public function klinik()
     {
         // Logic for klinik layanan
-        return view('layanan.klinik');
+        return view('layanan.klinik', ['data' => Clinic::showData()]);
     }
 
     public function provider()
     {
         // Logic for provider layanan
-        return view('layanan.provider');
+        return view('layanan.provider', ['data' => provider::showData()]);
     }
 
     public function inhouse()
     {
         // Logic for inhouse layanan
-        return view('layanan.inhouse');
+        return view('layanan.inhouse', ['data' => Inhouse::showData()]);
     }
 
     public function download()

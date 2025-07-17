@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_mitras', function (Blueprint $table) {
+        Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kota_id')->constrained('kotas')->cascadeOnDelete();
+            $table->string('kode_faskes')->unique();
+            $table->foreignId('kota_id')->constrained('kotas')->onDelete('cascade');
             $table->string('nama_mitra');
-            $table->text('alamat');
+            $table->string('alamat');
             $table->string('telp');
             $table->string('fasilitas');
-            $table->string('pemanfaatan_peserta');
-            $table->string('cob');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_mitras');
+        Schema::dropIfExists('clinics');
     }
 };

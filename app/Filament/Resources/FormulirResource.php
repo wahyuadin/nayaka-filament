@@ -2,37 +2,33 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AboutModalResource\Pages;
-use App\Filament\Resources\AboutModalResource\RelationManagers;
-use App\Models\AboutModal;
+use App\Filament\Resources\FormulirResource\Pages;
+use App\Filament\Resources\FormulirResource\RelationManagers;
+use App\Models\Formulir;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
-class AboutModalResource extends Resource
+class FormulirResource extends Resource
 {
-    protected static ?string $model = AboutModal::class;
+    protected static ?string $model = Formulir::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
-    protected static ?string $navigationGroup = 'About';
-    protected static ?int $navigationSort = 5;
-    protected static ?string $pluralModelLabel = 'Page About Modal';
-    protected static ?string $navigationLabel = 'Modal';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TinyEditor::make('content')
+                Forms\Components\TextInput::make('nama_formulir')
                     ->required()
-                    ->label('Konten')
-                    ->columnSpanFull(),
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('file_path')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -40,12 +36,15 @@ class AboutModalResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('content')->limit(50),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('nama_formulir')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('file_path')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -73,18 +72,9 @@ class AboutModalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAboutModals::route('/'),
-            'create' => Pages\CreateAboutModal::route('/create'),
-            'edit' => Pages\EditAboutModal::route('/{record}/edit'),
+            'index' => Pages\ListFormulirs::route('/'),
+            'create' => Pages\CreateFormulir::route('/create'),
+            'edit' => Pages\EditFormulir::route('/{record}/edit'),
         ];
-    }
-
-    public static function canCreate(): bool
-    {
-        if (AboutModal::count()) {
-            return false;
-        }
-
-        return true;
     }
 }

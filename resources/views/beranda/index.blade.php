@@ -215,7 +215,7 @@
 <!-- End Pricing-->
 
 <!-- ======= Services =======-->
-<section class="section services__v3 bg-light py-5" id="services" data-aos="fade-right" data-aos-delay="1100">
+<section class="section services__v3 bg-light py-5" id="services" data-aos="fade-right" data-aos-delay="200">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-8 mx-auto text-center">

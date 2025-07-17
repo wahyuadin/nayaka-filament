@@ -32,6 +32,16 @@ class ShortcutResource extends Resource
     {
         return $form
             ->schema([
+                TextInput::make('title')
+                    ->required()
+                    ->placeholder('Masukan Judul')
+                    ->label('Judul')
+                    ->maxLength(255),
+                TextInput::make('class')
+                    ->required()
+                    ->placeholder('Masukan Class CSS')
+                    ->label('CSS Class')
+                    ->maxLength(255),
                 TextInput::make('link')
                     ->required()
                     ->placeholder('Masukan Link')
@@ -41,12 +51,6 @@ class ShortcutResource extends Resource
                     ->required()
                     ->placeholder('Masukan Icon')
                     ->label('Icon')
-                    ->maxLength(255),
-                TextInput::make('title')
-                    ->required()
-                    ->placeholder('Masukan Judul')
-                    ->label('Judul')
-                    ->columnSpanFull()
                     ->maxLength(255),
             ]);
     }
@@ -59,6 +63,8 @@ class ShortcutResource extends Resource
                     ->searchable(),
                 TextColumn::make('icon'),
                 TextColumn::make('link'),
+                TextColumn::make('class')
+                    ->label('CSS Class'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

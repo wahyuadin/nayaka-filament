@@ -28,7 +28,7 @@ class ProviderIconResource extends Resource
     protected static ?string $navigationGroup = 'Home';
     protected static ?int $navigationSort = 5;
     protected static ?string $pluralModelLabel = 'Provider Icon';
-    protected static ?string $navigationLabel = 'Provider';
+    protected static ?string $navigationLabel = 'Provider Icon';
     public static function form(Form $form): Form
     {
         return $form

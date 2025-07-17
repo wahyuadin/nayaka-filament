@@ -1,17 +1,17 @@
  <header class="fbs__net-navbar navbar navbar-expand-lg dark" aria-label="freebootstrap.net navbar">
      <div class="container d-flex align-items-center justify-content-between">
          <a class="navbar-brand w-auto" href="{{ url('/') }}">
-             <img class="logo dark img-fluid" src="assets/icon.png" alt="" width="160" />
+             <img class="logo dark img-fluid" src="{{ asset('assets/icon.png') }}" alt="" width="160" />
 
-             <img class="logo light img-fluid" src="assets/icon.png" alt="" />
+             <img class="logo light img-fluid" src="{{ asset('assets/icon.png') }}" alt="" />
          </a>
          <div class="offcanvas offcanvas-start w-75" id="fbs__net-navbars" tabindex="-1" aria-labelledby="fbs__net-navbarsLabel">
              <div class="offcanvas-header">
                  <div class="offcanvas-header-logo">
                      <a class="logo-link" id="fbs__net-navbarsLabel" href="index.html">
-                         <img class="logo dark img-fluid" src="assets/icon.png" width="150" alt="FreeBootstrap.net image placeholder" />
+                         <img class="logo dark img-fluid" src="{{ asset('assets/icon.png') }}" width="150" alt="FreeBootstrap.net image placeholder" />
 
-                         <img class="logo light img-fluid" src="assets/icon.png" alt="FreeBootstrap.net image placeholder" /></a>
+                         <img class="logo light img-fluid" src="{{ asset('assets/icon.png') }}" alt="FreeBootstrap.net image placeholder" /></a>
                  </div>
                  <button class="btn-close btn-close-black" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
              </div>
@@ -19,14 +19,14 @@
              <div class="offcanvas-body align-items-lg-center">
                  <ul class="navbar-nav nav me-auto ps-lg-5 mb-2 mb-lg-0">
                      <li class="nav-item">
-                         <a class="nav-link scroll-link active" aria-current="page" href="#home"><b>Home</b></a>
+                         <a class="nav-link scroll-link active" aria-current="page" href="{{ url('/#home') }}"><b>Home</b></a>
                      </li>
                      <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"><b>Tentang</b> <i class="bi bi-chevron-down"></i></a>
 
                          <ul class="dropdown-menu">
                              <li>
-                                 <a class="nav-link scroll-link dropdown-item" href="#about">Tentang Kami</a>
+                                 <a class="nav-link scroll-link dropdown-item" href="{{ url('/#about') }}">Tentang Kami</a>
                              </li>
                              <li>
                                  <a class="nav-link scroll-link dropdown-item" href="{{ route('management.index') }}">Tim Management</a>
