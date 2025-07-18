@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Formulir extends Model
+class TimManagement extends Model
 {
     use HasFactory;
     protected $guarded = [];
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::latest()->get();
+        return $id ? self::find($id)->get() : self::all()->first();
     }
 }

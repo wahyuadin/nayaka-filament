@@ -24,8 +24,10 @@ use Filament\Tables\Table;
 class InhouseResource extends Resource
 {
     protected static ?string $model = Inhouse::class;
+    protected static ?string $navigationGroup = 'Master';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {

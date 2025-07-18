@@ -53,7 +53,7 @@
                                  <a class="nav-link scroll-link dropdown-item" href="{{ route('layanan.download') }}">Download Formulir</a>
                              </li>
                              <li>
-                                 <a class="nav-link scroll-link" href="#faqu">FAQ</a>
+                                 <a class="nav-link scroll-link" href="{{ url('/#faqu') }}">FAQ</a>
                              </li>
                          </ul>
                      </li>

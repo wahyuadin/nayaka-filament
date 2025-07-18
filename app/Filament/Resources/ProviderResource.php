@@ -22,8 +22,8 @@ use Filament\Tables\Actions\ImportAction;
 class ProviderResource extends Resource
 {
     protected static ?string $model = Provider::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Master';
+    protected static ?string $navigationIcon = 'heroicon-o-check-badge';
 
     public static function form(Form $form): Form
     {

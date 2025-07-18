@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('formulirs', function (Blueprint $table) {
+        Schema::create('tim_management', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_formulir');
-            $table->string('icon')->default('bi bi-filetype-pdf');
-            $table->string('file_path');
+            $table->string('title');
+            $table->longText('deskripsi');
+            $table->string('image');
+            $table->longText('komisaris_direksi');
+            $table->longText('senior_manager');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('formulirs');
+        Schema::dropIfExists('tim_management');
     }
 };

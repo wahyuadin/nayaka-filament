@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('formulirs', function (Blueprint $table) {
+        Schema::create('departement_carriers', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_formulir');
-            $table->string('icon')->default('bi bi-filetype-pdf');
-            $table->string('file_path');
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('formulirs');
+        Schema::dropIfExists('departement_carriers');
     }
 };

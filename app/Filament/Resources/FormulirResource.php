@@ -2,43 +2,51 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FormulirResource\Pages;
+use App\Filament\Resources\FormulirResource\Pages\EditFormulir;
+use App\Filament\Resources\FormulirResource\Pages\ListFormulirs;
 use App\Models\Formulir;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class FormulirResource extends Resource
 {
     protected static ?string $model = Formulir::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Master';
+    protected static ?int $navigationSort = 3;
+    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_formulir')
+                TextInput::make('nama_formulir')
                     ->required()
-                    ->columnSpanFull()
                     ->label('Nama Formulir')
                     ->placeholder('Masukan Nama Formulir')
+                    ->maxLength(255),
+                TextInput::make('icon')
+                    ->required()
+                    ->label('Nama Icon')
+                    ->placeholder('Masukan Nama Icon')
+                    ->default('bi bi-filetype-pdf')
                     ->maxLength(255),
 
                 FileUpload::make('file_path')
                     ->required()
                     ->label('File Path')
                     ->placeholder('Pilih file formulir...')
-                    ->directory('formulir') // akan disimpan di storage/app/formulir
+                    ->directory('formulir')
+                    ->visibility('public')
+                    ->downloadable()
                     ->columnSpanFull()
-                    ->preserveFilenames() // mempertahankan nama asli file
-                    ->maxSize(10240) // maks. 10 MB (dalam kilobytes)
+                    ->preserveFilenames()
+                    ->maxSize(10240)
                     ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png'])
-                    ->visibility('private') // sesuaikan sesuai kebutuhan: 'public' atau 'private'
-
             ]);
     }
 
@@ -46,15 +54,17 @@ class FormulirResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama_formulir')
+                TextColumn::make('nama_formulir')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('file_path')
+                TextColumn::make('icon')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('file_path')
+                    ->searchable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -82,9 +92,9 @@ class FormulirResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFormulirs::route('/'),
-            'create' => Pages\CreateFormulir::route('/create'),
-            'edit' => Pages\EditFormulir::route('/{record}/edit'),
+            'index' => ListFormulirs::route('/'),
+            // 'create' => CreateFormulir::route('/create'),
+            'edit' => EditFormulir::route('/{record}/edit'),
         ];
     }
 }
