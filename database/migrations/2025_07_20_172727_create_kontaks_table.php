@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_mitras', function (Blueprint $table) {
+        Schema::create('kontaks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kota_id')->constrained('kotas')->cascadeOnDelete();
-            $table->string('nama_mitra');
-            $table->text('alamat');
+            $table->string('title');
+            $table->string('address');
+            $table->string('email');
             $table->string('telp');
-            $table->string('fasilitas');
-            $table->string('pemanfaatan_peserta');
-            $table->string('cob');
+            $table->longText('google_maps');
+            $table->boolean('is_active')->default(1);
+            $table->boolean('is_pusat')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('provider_mitras');
+        Schema::dropIfExists('kontaks');
     }
 };

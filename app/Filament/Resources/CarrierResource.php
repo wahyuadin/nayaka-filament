@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\CarrierExporter;
+use App\Filament\Imports\CarrierImporter;
 use App\Filament\Resources\CarrierResource\Pages;
 use App\Filament\Resources\CarrierResource\RelationManagers;
 use App\Models\Carrier;
@@ -11,6 +13,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
@@ -132,7 +136,11 @@ class CarrierResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(CarrierExporter::class),
+                ImportAction::make()->importer(CarrierImporter::class)
+            ]);;
     }
 
     public static function getRelations(): array

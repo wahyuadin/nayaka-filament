@@ -2,37 +2,32 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AboutModalResource\Pages;
-use App\Filament\Resources\AboutModalResource\RelationManagers;
-use App\Models\AboutModal;
+use App\Filament\Resources\TagResource\Pages;
+use App\Filament\Resources\TagResource\RelationManagers;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
-class AboutModalResource extends Resource
+class TagResource extends Resource
 {
-    protected static ?string $model = AboutModal::class;
+    protected static ?string $model = Tag::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
-    protected static ?string $navigationGroup = 'About';
-    protected static ?int $navigationSort = 5;
-    protected static ?string $pluralModelLabel = 'Page About Modal';
-    protected static ?string $navigationLabel = 'Modal';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TinyEditor::make('content')
+                Forms\Components\TextInput::make('title')
                     ->required()
-                    ->label('Konten')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->placeholder('Masukan Tag')
+                    ->maxLength(255),
             ]);
     }
 
@@ -40,12 +35,13 @@ class AboutModalResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('content')->limit(50),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -73,18 +69,9 @@ class AboutModalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAboutModals::route('/'),
-            'create' => Pages\CreateAboutModal::route('/create'),
-            'edit' => Pages\EditAboutModal::route('/{record}/edit'),
+            'index' => Pages\ListTags::route('/'),
+            // 'create' => Pages\CreateTag::route('/create'),
+            'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
-    }
-
-    public static function canCreate(): bool
-    {
-        if (AboutModal::count()) {
-            return false;
-        }
-
-        return true;
     }
 }

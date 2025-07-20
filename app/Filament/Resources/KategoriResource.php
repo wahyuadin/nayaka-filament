@@ -2,22 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\KategoriExporter;
-use App\Filament\Exports\KotaExporter;
-use App\Filament\Imports\KategoriImporter;
 use App\Filament\Resources\KategoriResource\Pages;
 use App\Filament\Resources\KategoriResource\RelationManagers;
 use App\Models\Kategori;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ExportAction;
-use Filament\Tables\Actions\ImportAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,20 +16,18 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class KategoriResource extends Resource
 {
     protected static ?string $model = Kategori::class;
-    protected static ?string $navigationGroup = 'Master';
-    protected static ?int $navigationSort = 3;
-    protected static ?string $navigationIcon = 'heroicon-o-adjustments-vertical';
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama_kategori')
+                Forms\Components\TextInput::make('nama_kategori')
                     ->required()
-                    ->placeholder('Masukan Kategori')
                     ->maxLength(255),
-                TextInput::make('description')
-                    ->placeholder('Masukan Deskripsi (optional)')
+                Forms\Components\TextInput::make('slug')
+                    ->required()
                     ->maxLength(255),
             ]);
     }
@@ -47,41 +36,21 @@ class KategoriResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('nama_kategori')
+                Tables\Columns\TextColumn::make('nama_kategori')
                     ->searchable(),
-                TextColumn::make('description')
-                    ->label('Deskripsi')
-                    ->searchable()
-                    ->formatStateUsing(fn($state) => $state ?? '-'),
-
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
-                TextColumn::make('updated_at')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Filter::make('nama_kategori')
-                    ->form([
-                        TextInput::make('nama')->label('Cari Nama Kategori'),
-                    ])
-                    ->query(function ($query, array $data) {
-                        return $query
-                            ->when($data['nama'], fn($q) => $q->where('nama', 'like', "%{$data['nama']}%"));
-                    }),
-                Filter::make('created_from')
-                    ->form([
-                        DatePicker::make('created_from')->label('Dari Tanggal'),
-                        DatePicker::make('created_until')->label('Sampai Tanggal'),
-                    ])
-                    ->query(function ($query, array $data) {
-                        return $query
-                            ->when($data['created_from'], fn($q) => $q->whereDate('created_at', '>=', $data['created_from']))
-                            ->when($data['created_until'], fn($q) => $q->whereDate('created_at', '<=', $data['created_until']));
-                    }),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -90,10 +59,6 @@ class KategoriResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->headerActions([
-                ExportAction::make()->exporter(KategoriExporter::class),
-                ImportAction::make()->importer(KategoriImporter::class)
             ]);
     }
 
@@ -108,7 +73,7 @@ class KategoriResource extends Resource
     {
         return [
             'index' => Pages\ListKategoris::route('/'),
-            // 'create' => Pages\CreateKategori::route('/create'),
+            'create' => Pages\CreateKategori::route('/create'),
             'edit' => Pages\EditKategori::route('/{record}/edit'),
         ];
     }

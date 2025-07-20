@@ -14,14 +14,19 @@ class CarrierExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
-            ExportColumn::make('title'),
-            ExportColumn::make('departement_id'),
-            ExportColumn::make('location_id'),
-            ExportColumn::make('pengalaman_id'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            // ExportColumn::make('id')
+            //     ->label('ID'),
+            ExportColumn::make('title')
+                ->label('Jabatan'),
+            ExportColumn::make('departement.name')
+                ->label('Departemen'),
+            ExportColumn::make('location.name')
+                ->label('Lokasi'),
+            ExportColumn::make('pengalaman.name')
+                ->label('Pengalaman'),
+            ExportColumn::make('created_at')
+            ->label('Dibuat Pada'),
+            // ExportColumn::make('updated_at'),
         ];
     }
 

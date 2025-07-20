@@ -17,7 +17,7 @@ class ClinicExporter extends Exporter
             // ExportColumn::make('id')
             //     ->label('ID'),
             ExportColumn::make('kode_faskes'),
-            ExportColumn::make('kota_id')
+            ExportColumn::make('kota.nama')
                 ->label('Kota'),
             ExportColumn::make('nama_mitra'),
             ExportColumn::make('alamat'),

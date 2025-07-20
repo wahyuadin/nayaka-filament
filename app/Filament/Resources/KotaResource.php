@@ -44,7 +44,7 @@ class KotaResource extends Resource
     {
         return $table
             ->query(
-                Kota::query() // Pastikan ini Eloquent\Builder, akan lazy by default
+                Kota::query()
             )
             ->columns([
                 TextColumn::make('nama')

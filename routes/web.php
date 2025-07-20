@@ -22,3 +22,4 @@ Route::prefix('carrier')->group(function () {
     Route::get('filter', [Controller::class, 'filter'])->name('carrier.filter');
 });
 Route::get('management', [Controller::class, 'management'])->name('management.index');
+Route::get('kontak', [Controller::class, 'kontak'])->name('kontak.index');

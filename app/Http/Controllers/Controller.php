@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carrier;
 use App\Models\DepartementCarrier;
+use App\Models\Kontak;
 use App\Models\LocationCarrier;
 use App\Models\PengalamanCarrier;
 use App\Models\TimManagement;
@@ -52,5 +53,9 @@ class Controller extends BaseController
         return response()->json([
             'data' => view('carrier.filter', compact('data'))->render()
         ]);
+    }
+
+    public function kontak() {
+        return view('kontak.index', ['data' => Kontak::showData()]);
     }
 }
