@@ -37,6 +37,8 @@
                                         <th>kota</th>
                                         <th>Alamat</th>
                                         <th>Telepon</th>
+                                        <th>Fasilitas</th>
+                                        <th>Pemanfaatan Peserta</th>
                                         <th>COB</th>
                                     </tr>
                                 </thead>
@@ -48,6 +50,8 @@
                                         <td>{{ $item->kota->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon ?? '-' }}</td>
+                                        <td>{{ $item->fasilitas }}</td>
+                                        <td>{{ $item->pemanfaatan_peserta }}</td>
                                         @if($item->cob == 1)
                                         <td>{{ 'YA' }}</td>
                                         @elseif($item->cob == 0)
