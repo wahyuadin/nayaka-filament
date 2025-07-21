@@ -4,6 +4,7 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\VideoController;
 use App\Models\Kegiatan;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,12 @@ Route::prefix('kegiatan')->group(function () {
     route::get('{slug}', [KegiatanController::class, 'slug'])->name('kegiatan.slug');
     route::get('kategori/{slug}', [KegiatanController::class, 'kategori'])->name('kegiatan.kategori.slug');
     route::get('tag/{slug}', [KegiatanController::class, 'tag'])->name('kegiatan.tag.slug');
+});
+Route::prefix('video')->group(function () {
+    route::get('/', [VideoController::class, 'index'])->name('video.index');
+    route::get('{slug}', [VideoController::class, 'slug'])->name('video.slug');
+    route::get('kategori/{slug}', [VideoController::class, 'kategori'])->name('video.kategori.slug');
+    route::get('tag/{slug}', [VideoController::class, 'tag'])->name('video.tag.slug');
 });
 Route::get('management', [Controller::class, 'management'])->name('management.index');
 Route::get('kontak', [Controller::class, 'kontak'])->name('kontak.index');

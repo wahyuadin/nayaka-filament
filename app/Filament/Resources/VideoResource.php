@@ -62,6 +62,7 @@ class VideoResource extends Resource
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
+                    ->limit(20)
                     ->sortable(),
                 TextColumn::make('link_youtube')
                     ->searchable()

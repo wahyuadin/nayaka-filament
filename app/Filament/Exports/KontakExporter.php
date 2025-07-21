@@ -14,17 +14,17 @@ class KontakExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
+            // ExportColumn::make('id')
+            //     ->label('ID'),
             ExportColumn::make('title'),
             ExportColumn::make('address'),
             ExportColumn::make('email'),
             ExportColumn::make('telp'),
             ExportColumn::make('google_maps'),
             ExportColumn::make('is_active'),
-            ExportColumn::make('is_pusat'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            // ExportColumn::make('is_pusat'),
+            ExportColumn::make('created_at')->label('Dibuat Pada'),
+            // ExportColumn::make('updated_at'),
         ];
     }
 

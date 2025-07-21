@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\KontakExporter;
 use App\Filament\Resources\KontakResource\Pages;
 use App\Filament\Resources\KontakResource\RelationManagers;
 use App\Models\Kontak;
@@ -13,9 +14,10 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class KontakResource extends Resource
 {
@@ -30,21 +32,30 @@ class KontakResource extends Resource
                 TextInput::make('title')
                     ->required()
                     ->placeholder('Masukan Title')
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->email()
-                    ->placeholder('Masukan Email')
-                    ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Textarea::make('address')
+                    ->placeholder('Masukan Alamat')
                     ->required()
                     ->columnSpanFull()
-                    ->rows(5)
-                    ->placeholder('Masukan Address')
                     ->maxLength(255),
+                Repeater::make('email')
+                    ->label('Masukan Email')
+                    ->schema([
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->placeholder('Masukan Email')
+                            ->required()
+                            ->email()
+                            ->maxLength(255),
+                    ])
+                    ->minItems(1)
+                    ->maxItems(5)
+                    ->columns(1)
+                    ->required()
+                    ->reorderable(false),
                 Repeater::make('telp')
                     ->label('Nomor Telepon')
-                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('nomor')
                             ->label('No. Telp')
@@ -66,7 +77,19 @@ class KontakResource extends Resource
                     ->required()
                     ->default(1),
                 Toggle::make('is_pusat')
-                    ->required(),
+                    ->label('Pusat')
+                    ->required()
+                    ->default(false)
+                    ->disabled(function (callable $get, $livewire) {
+                        $exists = \App\Models\Kontak::query()
+                            ->where('is_pusat', true)
+                            ->when($livewire->record?->id, function ($query, $id) {
+                                return $query->where('id', '!=', $id);
+                            })
+                            ->exists();
+
+                        return $exists;
+                    }),
             ]);
     }
 
@@ -74,25 +97,34 @@ class KontakResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('telp')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('google_maps')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('is_pusat')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('address')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->limit(20),
+                TextColumn::make('telp')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('google_maps')
+                    ->searchable()
+                    ->limit(20),
+                IconColumn::make('is_active')
+                    ->boolean()
+                    ->sortable(),
+                IconColumn::make('is_pusat')
+                    ->boolean()
+                    ->sortable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -102,6 +134,9 @@ class KontakResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->headerActions([
+                ExportAction::make()->exporter(KontakExporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -11,7 +11,8 @@ class Kontak extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'telp' => 'array'
+        'telp' => 'array',
+        'email' => 'array'
     ];
 
     public static function showData($id = null)

@@ -28,11 +28,11 @@ class Kegiatan extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::with('kategori', 'tags')->where('slug', $id)->first() : self::where('is_active', true)->with('kategori', 'tags')->latest()->get();
+        return $id ? self::with('kategori', 'tags')->where('slug', $id)->first() : self::where('is_active', true)->with('kategori', 'tags')->latest()->limit(3)->get();
     }
 
     public static function paginate()
     {
-        return self::where('is_active', true)->with('kategori', 'tags')->latest()->paginate(6);
+        return self::where('is_active', true)->with('kategori', 'tags')->latest()->paginate(2);
     }
 }

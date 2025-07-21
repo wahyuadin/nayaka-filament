@@ -14,4 +14,14 @@ class Video extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function showData($id = null)
+    {
+        return $id ? self::find($id)->with('user')->first() : self::with('user')->latest()->get();
+    }
+
+    public static function paginate()
+    {
+        return self::with('user')->latest()->paginate(6);
+    }
 }

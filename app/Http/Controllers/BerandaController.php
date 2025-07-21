@@ -12,6 +12,7 @@ use App\Models\Faq;
 use App\Models\Kegiatan;
 use App\Models\Produk;
 use App\Models\Testimoni;
+use App\Models\Video;
 use App\Models\WhyUs;
 
 class BerandaController extends Controller
@@ -31,7 +32,8 @@ class BerandaController extends Controller
             'produk' => Produk::showData(),
             'testimoni' => Testimoni::showData(),
             'faq' => Faq::showData(),
-            'kegiatan' => Kegiatan::showData()
+            'kegiatan' => Kegiatan::showData(),
+            'video' => Video::showData()
         ]);
     }
 
