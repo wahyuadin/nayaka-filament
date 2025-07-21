@@ -9,4 +9,14 @@ class Kategori extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function kegiatans()
+    {
+        return $this->hasMany(Kegiatan::class);
+    }
+
+    public static function showData($id = null)
+    {
+        return $id ? self::find($id)->get() : self::latest()->get();
+    }
 }

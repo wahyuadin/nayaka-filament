@@ -19,4 +19,20 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Kategori::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'kegiatan_tags');
+    }
+
+
+    public static function showData($id = null)
+    {
+        return $id ? self::with('kategori', 'tags')->where('slug', $id)->first() : self::where('is_active', true)->with('kategori', 'tags')->latest()->get();
+    }
+
+    public static function paginate()
+    {
+        return self::where('is_active', true)->with('kategori', 'tags')->latest()->paginate(6);
+    }
 }

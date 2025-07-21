@@ -83,7 +83,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" data-aos="fade-up" data-aos-delay="700">
+                    <div data-aos="fade-up" data-aos-delay="700">
+                        <hr>
+                    </div>
+                    <div class="row" data-aos="fade-up" data-aos-delay="800">
                         <div class="col-12 text-center mb-4">
                             <h3 class="fw-bold text-dark mb-3">Kantor Cabang Kami</h3>
                             <p class="lead text-muted">Temukan Nayaka Era Husada di berbagai kota di Indonesia.</p>
@@ -101,14 +104,13 @@
                                         </p>
                                         @foreach ($dataItem->telp as $telpData)
                                             <p class="card-text mb-0">
-                                                <i class="bi bi-telephone-fill me-2"></i> Telp: <a
+                                                <i class="bi bi-telephone-fill me-2"></i><a
                                                     href="tel:{{ $telpData['nomor'] }}"
                                                     class="text-decoration-none text-dark">{{ $telpData['nomor'] }}</a>
                                             </p>
                                         @endforeach
                                         <p class="card-text">
-                                            <i class="bi bi-envelope-fill me-2"></i> Email: <a
-                                                href="mailto:{{ $dataItem->email }}"
+                                            <i class="bi bi-envelope-fill me-2"></i><a href="mailto:{{ $dataItem->email }}"
                                                 class="text-decoration-none text-dark">{{ $dataItem->email }}</a>
                                         </p>
                                         <a href="{{ $dataItem->google_maps }}" target="_blank"

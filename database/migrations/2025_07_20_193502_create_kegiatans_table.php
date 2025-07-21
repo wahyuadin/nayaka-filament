@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('kategori_id')->constrained('kategoris')->cascadeOnDelete();
+            $table->boolean('is_active')->default(1);
             $table->string('title');
+            $table->string('slug')->unique();
             $table->longText('content');
+            $table->string('image');
+            $table->date('date');
             $table->timestamps();
         });
     }
