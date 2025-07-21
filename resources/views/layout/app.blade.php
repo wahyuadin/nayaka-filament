@@ -141,6 +141,31 @@
         }
 
     </style>
+    <style>
+        /* Sembunyikan frame Google Translate yang menghalangi */
+        .goog-te-banner-frame.skiptranslate,
+        .goog-logo-link,
+        .goog-te-gadget span,
+        #goog-gt-tt,
+        iframe[id^=":"],
+        .goog-tooltip,
+        .goog-te-balloon-frame,
+        div#goog-gt- {
+            display: none !important;
+        }
+
+        /* Hilangkan margin body yang ditambahkan Google Translate */
+        body {
+            top: 0px !important;
+        }
+
+        /* Sembunyikan badge Google di pojok bawah */
+        .goog-te-gadget {
+            color: transparent !important;
+            font-size: 0px;
+        }
+
+    </style>
 
     @stack('style')
 </head>
