@@ -35,7 +35,7 @@
                          </ul>
                      </li>
                      <li class="nav-item">
-                         <a class="nav-link scroll-link" href="#pricing"><b>Produk</b></a>
+                         <a class="nav-link scroll-link" href="{{ url('/#pricing') }}"><b>Produk</b></a>
                      </li>
                      <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"><b>Layanan</b> <i class="bi bi-chevron-down"></i></a>
@@ -72,32 +72,29 @@
                      <ul class="navbar-nav nav me-auto ps-lg-5 mb-2 mb-lg-0"></ul>
 
                      <div class="mt-auto pt-3 pt-lg-0 d-lg-flex align-items-lg-center">
-                         {{-- <ul class="navbar-nav nav mb-3 mb-lg-0">
+                         <ul class="navbar-nav nav mb-3 mb-lg-0">
                              <li class="nav-item dropdown">
-                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
-                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                     <img src="https://i.pinimg.com/736x/91/3d/f8/913df8098c7237aae279c4628302f49c.jpg"
-                                         alt="Indonesia Flag" width="24" height="16" class="me-2" />
+                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                     <img src="https://i.pinimg.com/736x/91/3d/f8/913df8098c7237aae279c4628302f49c.jpg" alt="Indonesia Flag" width="24" height="16" class="me-2" />
                                      <b>ID</b> <i class="bi bi-chevron-down ms-1"></i>
                                  </a>
                                  <ul class="dropdown-menu dropdown-menu-end">
                                      <li>
-                                         <a class="dropdown-item d-flex align-items-center" href="#lang-id">
-                                             <img src="https://i.pinimg.com/736x/91/3d/f8/913df8098c7237aae279c4628302f49c.jpg"
-                                                 alt="Indonesia Flag" width="24" height="16" class="me-2" />
+                                         <a class="dropdown-item d-flex align-items-center lang-switch" data-lang="id" href="#">
+                                             <img src="https://i.pinimg.com/736x/91/3d/f8/913df8098c7237aae279c4628302f49c.jpg" alt="Indonesia Flag" width="24" height="16" class="me-2" />
                                              Indonesia
                                          </a>
                                      </li>
                                      <li>
-                                         <a class="dropdown-item d-flex align-items-center" href="#lang-en">
-                                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"
-                                                 alt="UK Flag" width="24" height="16" class="me-2" />
+                                         <a class="dropdown-item d-flex align-items-center lang-switch" data-lang="en" href="#">
+                                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="UK Flag" width="24" height="16" class="me-2" />
                                              English
                                          </a>
                                      </li>
                                  </ul>
                              </li>
-                         </ul> --}}
+                         </ul>
+
                          <div class="d-grid d-lg-block">
                              <a target="_blank" href="{{ url('panel') }}" class="btn btn-warning d-inline-flex align-items-center justify-content-center fw-bold px-2 py-1" style="
                                             font-size: 0.8rem;

@@ -17,12 +17,12 @@
                     <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
                         <h3 class="mb-3">Tautan Cepat</h3>
                         <ul class="list-unstyled">
-                            <li><a href="#home">Utama</a></li>
+                            <li><a href="{{ url('/#home') }}">Utama</a></li>
                             <li>
-                                <a href="#faqu">F.A.Q</a>
+                                <a href="{{ url('/#faqu') }}">F.A.Q</a>
                             </li>
                             <li>
-                                <a href="#contact">Kontak Kami</a>
+                                <a href="{{ url('/#contact') }}">Kontak Kami</a>
                             </li>
                         </ul>
                     </div>
@@ -30,16 +30,16 @@
                         <h3 class="mb-3">Layanan Kami</h3>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="https://nayakaerahusada.com/layanan/klinik">Klinik Nayaka</a>
+                                <a href="{{ route('layanan.klinik') }}">Klinik Nayaka</a>
                             </li>
                             <li>
-                                <a href="https://nayakaerahusada.com/layanan/provider">Provider Nayaka</a>
+                                <a href="{{ route('layanan.provider') }}">Provider Nayaka</a>
                             </li>
                             <li>
-                                <a href="https://nayakaerahusada.com/layanan/inhouse">Klinik Kerjasama Perusahaan</a>
+                                <a href="{{ route('layanan.inhouse') }}">Klinik Kerjasama Perusahaan</a>
                             </li>
                             <li>
-                                <a href="https://new.nayakaerahusada.com/layanan/download_formulir">Download Formulir</a>
+                                <a href="{{ route('layanan.download') }}">Download Formulir</a>
                             </li>
                         </ul>
                     </div>

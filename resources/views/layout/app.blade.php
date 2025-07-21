@@ -183,8 +183,79 @@
     <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <div id="google_translate_element" style="display:none;"></div>
 
+    <!-- Google Translate script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'id'
+                , includedLanguages: 'id,en'
+                , layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
 
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     @stack('script')
 </body>
+<script>
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
+        document.cookie = `${name}=${value}; domain=${location.hostname}; path=/`;
+    }
+
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        return match ? match[2] : null;
+    }
+
+    function triggerTranslate(lang) {
+        const langMap = {
+            'id': '/id/id'
+            , 'en': '/id/en'
+        };
+        const googLang = langMap[lang];
+        if (!googLang) return;
+
+        // Set cookie dan hash saat user klik
+        setCookie('googtranslang', lang, 7);
+        setCookie('googtrans', googLang, 7);
+        window.location.hash = `#googtrans(${googLang})`;
+        window.location.reload();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle klik manual (user memilih bahasa)
+        document.querySelectorAll('.lang-switch').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.dataset.lang;
+                triggerTranslate(lang);
+            });
+        });
+
+        // Saat halaman dimuat otomatis, cek apakah user pernah pilih bahasa
+        const savedLang = getCookie('googtranslang');
+        if (savedLang) {
+            const langMap = {
+                'id': '/id/id'
+                , 'en': '/id/en'
+            };
+            const googLang = langMap[savedLang];
+
+            // Hanya apply translate jika hash belum ada dan user pernah pilih
+            if (googLang && !window.location.hash.includes('googtrans')) {
+                setCookie('googtrans', googLang, 7);
+                window.location.hash = `#googtrans(${googLang})`;
+                window.location.reload();
+            }
+        }
+    });
+
+</script>
+
+
 </html>

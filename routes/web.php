@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\VideoController;
-use App\Models\Kegiatan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda.index');
