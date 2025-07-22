@@ -13,7 +13,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Nayaka Era Husada - Penyedia Layanan Kesehatan Terpercaya">
     <meta property="og:description" content="Lebih dari 30 tahun melayani dengan jaringan provider luas dan layanan kesehatan 24 jam.">
-    <meta property="og:image" content="https://new.nayakaerahusada.com/assets/images/logo_nayaka2.png">
+    <meta property="og:image" content="{{ asset('assets/icon.png') }}">
     <meta property="og:url" content="https://www.nayakaerahusada.com/">
     <meta property="og:type" content="website">
 
@@ -21,7 +21,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Nayaka Era Husada - Penyedia Layanan Kesehatan Terpercaya">
     <meta name="twitter:description" content="Lebih dari 30 tahun melayani dengan jaringan provider luas dan layanan kesehatan 24 jam.">
-    <meta name="twitter:image" content="https://new.nayakaerahusada.com/assets/images/logo_nayaka2.png">
+    <meta name="twitter:image" content="{{ asset('assets/icon.png') }}">
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/icon.png') }}" type="image/png" />
@@ -221,66 +221,84 @@
         }
 
     </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    @stack('script')
-</body>
-<script>
-    function setCookie(name, value, days) {
-        const d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
-        document.cookie = `${name}=${value}; domain=${location.hostname}; path=/`;
-    }
+    <script>
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
+            document.cookie = `${name}=${value}; domain=${location.hostname}; path=/`;
+        }
 
-    function getCookie(name) {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        return match ? match[2] : null;
-    }
+        function getCookie(name) {
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
+        }
 
-    function triggerTranslate(lang) {
-        const langMap = {
-            'id': '/id/id'
-            , 'en': '/id/en'
-        };
-        const googLang = langMap[lang];
-        if (!googLang) return;
-
-        // Set cookie dan hash saat user klik
-        setCookie('googtranslang', lang, 7);
-        setCookie('googtrans', googLang, 7);
-        window.location.hash = `#googtrans(${googLang})`;
-        window.location.reload();
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Handle klik manual (user memilih bahasa)
-        document.querySelectorAll('.lang-switch').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const lang = this.dataset.lang;
-                triggerTranslate(lang);
-            });
-        });
-
-        // Saat halaman dimuat otomatis, cek apakah user pernah pilih bahasa
-        const savedLang = getCookie('googtranslang');
-        if (savedLang) {
+        function triggerTranslate(lang) {
             const langMap = {
                 'id': '/id/id'
                 , 'en': '/id/en'
             };
-            const googLang = langMap[savedLang];
+            const googLang = langMap[lang];
+            if (!googLang) return;
 
-            // Hanya apply translate jika hash belum ada dan user pernah pilih
-            if (googLang && !window.location.hash.includes('googtrans')) {
-                setCookie('googtrans', googLang, 7);
-                window.location.hash = `#googtrans(${googLang})`;
-                window.location.reload();
+            // Set cookie dan hash saat user klik
+            setCookie('googtranslang', lang, 7);
+            setCookie('googtrans', googLang, 7);
+            window.location.hash = `#googtrans(${googLang})`;
+            window.location.reload();
+        }
+
+        function updateLanguageUI(lang) {
+            const langLabel = document.getElementById('lang-label');
+            const langFlag = document.getElementById('lang-flag');
+
+            if (lang === 'en') {
+                langLabel.textContent = 'EN';
+                langFlag.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/2560px-Flag_of_the_United_Kingdom_%283-5%29.svg.png';
+                langFlag.alt = 'UK Flag';
+            } else {
+                langLabel.textContent = 'ID';
+                langFlag.src = 'https://i.pinimg.com/736x/91/3d/f8/913df8098c7237aae279c4628302f49c.jpg';
+                langFlag.alt = 'Indonesia Flag';
             }
         }
-    });
 
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle klik manual (user memilih bahasa)
+            let selectedLang = getCookie('googtranslang') || 'id';
+            updateLanguageUI(selectedLang);
+            document.querySelectorAll('.lang-switch').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.dataset.lang;
+
+                    triggerTranslate(lang);
+                });
+            });
+
+            // Saat halaman dimuat otomatis, cek apakah user pernah pilih bahasa
+            const savedLang = getCookie('googtranslang');
+            if (savedLang) {
+                const langMap = {
+                    'id': '/id/id'
+                    , 'en': '/id/en'
+                };
+                const googLang = langMap[savedLang];
+
+                // Hanya apply translate jika hash belum ada dan user pernah pilih
+                if (googLang && !window.location.hash.includes('googtrans')) {
+                    setCookie('googtrans', googLang, 0.083333333);
+                    window.location.hash = `#googtrans(${googLang})`;
+                    window.location.reload();
+                }
+            }
+        });
+
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    @stack('script')
+</body>
 
 
 </html>

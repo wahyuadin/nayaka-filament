@@ -17,6 +17,6 @@ class Kontak extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::where('is_active', true)->where('is_pusat', false)->latest()->get();
+        return $id ? self::find($id) : self::where('is_active', true)->where('is_pusat', false)->orderBy('created_at', 'ASC')->get();
     }
 }

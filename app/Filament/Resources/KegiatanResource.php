@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KegiatanResource\Pages;
 use App\Models\Kegiatan;
+use App\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -95,7 +96,19 @@ class KegiatanResource extends Resource
                     TextInput::make('title')
                         ->label('Nama Tag')
                         ->required()
-                        ->maxLength(255),
+                        ->live(onBlur: true) // trigger update saat keluar input
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            $slug = Str::slug(ltrim($state, '#')); // hilangkan # lalu slugify
+                            $set('slug', $slug); // set nilai slug field
+                        }),
+
+                    TextInput::make('slug')
+                        ->label('Slug')
+                        ->disabled()
+                        ->required()
+                        ->dehydrated() // agar tetap disimpan meskipun disabled
+                        ->placeholder('Slug akan keisi otomatis')
+                        ->unique(Tag::class, 'slug', ignoreRecord: true),
                 ])
                 ->columnSpanFull(),
 

@@ -9,7 +9,7 @@
                 </li>
                 <li class="d-inline-flex align-items-center me-3"><i class="bi bi-clock me-1"></i> <time datetime="{{ $data->date ?? 'error' }}">{{ Carbon\Carbon::parse($data->date ?? '')->locale('id')->translatedFormat('d F Y') ?? 'error' }}</time>
                 </li>
-                <li class="d-inline-flex align-items-center"><i class="bi bi-folder2-open me-1"></i> <a href="#">{{ $data->kategori->nama_kategori ?? 'error' }}</a>
+                <li class="d-inline-flex align-items-center"><i class="bi bi-folder2-open me-1"></i> <a href="{{ route('kegiatan.kategori.slug', $data->kategori->slug) }}">{{ $data->kategori->nama_kategori ?? 'error' }}</a>
                 </li>
             </ul>
         </div>
@@ -20,7 +20,7 @@
             <div class="tags">
                 <i class="bi bi-tags-fill me-1"></i>
                 @forelse ($data->tags as $tagsItem)
-                <a href="#">{{ $tagsItem->title }}</a>
+                <a href="{{ route('kegiatan.tag.slug', $tagsItem->slug) }}">{{ $tagsItem->title }}</a>
                 @empty
                 Tidak ada tags
                 @endforelse

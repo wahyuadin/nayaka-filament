@@ -24,10 +24,14 @@ Route::prefix('carrier')->group(function () {
     Route::get('filter', [Controller::class, 'filter'])->name('carrier.filter');
 });
 Route::prefix('kegiatan')->group(function () {
-    route::get('/', [KegiatanController::class, 'index'])->name('kegiatan.index');
-    route::get('{slug}', [KegiatanController::class, 'slug'])->name('kegiatan.slug');
-    route::get('kategori/{slug}', [KegiatanController::class, 'kategori'])->name('kegiatan.kategori.slug');
-    route::get('tag/{slug}', [KegiatanController::class, 'tag'])->name('kegiatan.tag.slug');
+    Route::get('/', [KegiatanController::class, 'index'])->name('kegiatan.index');
+    Route::prefix('search')->group(function () {
+        route::post('/', [KegiatanController::class, 'carikegiatanPost'])->name('cari.kegiatan');
+        // route::get('/', [KegiatanController::class, 'carikegiatanGet'])->name('cari.kegaitan.result');
+    });
+    Route::get('content/{slug}', [KegiatanController::class, 'slug'])->name('kegiatan.slug');
+    Route::get('kategori/{slug}', [KegiatanController::class, 'kategori'])->name('kegiatan.kategori.slug');
+    Route::get('tag/{slug}', [KegiatanController::class, 'showTag'])->name('kegiatan.tag.slug');
 });
 Route::prefix('video')->group(function () {
     route::get('/', [VideoController::class, 'index'])->name('video.index');

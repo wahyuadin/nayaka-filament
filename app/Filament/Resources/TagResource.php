@@ -3,15 +3,17 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TagResource\Pages;
-use App\Filament\Resources\TagResource\RelationManagers;
 use App\Models\Tag;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
+
 
 class TagResource extends Resource
 {
@@ -23,11 +25,21 @@ class TagResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                TextInput::make('title')
                     ->required()
-                    ->columnSpanFull()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                     ->placeholder('Masukan Tag')
                     ->maxLength(255),
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->disabled(fn($livewire) => $livewire instanceof CreateRecord)
+                    ->placeholder('Slug akan keisi otomatis')
+                    ->default(fn($record) => $record?->slug) // ✅ ambil dari model saat edit
+                    ->dehydrated()
+                    ->required()
+                    ->unique(\App\Models\Tag::class, 'slug', ignoreRecord: true),
+
             ]);
     }
 
@@ -35,13 +47,14 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('slug')->searchable(),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

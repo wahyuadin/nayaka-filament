@@ -25,11 +25,31 @@ class KegiatanController extends Controller
 
     public function kategori($slug)
     {
-        return $slug;
+        return view('kegiatan.kategori', [
+            'data' => Kegiatan::showBySlug($slug),
+            'slug' => $slug
+        ]);
     }
 
-    public function tag($slug)
+    public function showTag($slug)
     {
-        return $slug;
+        return view('kegiatan.tag', ['data' => Kegiatan::showByTag($slug), 'slug' => $slug]);
+    }
+
+    public function carikegiatanPost(Request $request)
+    {
+        return view('kegiatan.search', [
+            'data' => Kegiatan::search($request->search),
+            'kategori' => Kategori::showData(),
+            'tag' => Tag::showData(),
+            'search' => $request->search
+        ]);
+    }
+
+    public function validasi(Request $request)
+    {
+        $request->validate([
+            'search' => 'required|min:1'
+        ]);
     }
 }

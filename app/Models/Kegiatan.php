@@ -33,6 +33,30 @@ class Kegiatan extends Model
 
     public static function paginate()
     {
-        return self::where('is_active', true)->with('kategori', 'tags')->latest()->paginate(2);
+        return self::where('is_active', true)->with('kategori', 'tags', 'user')->latest()->paginate(2);
+    }
+
+    public static function showBySlug($slug)
+    {
+        return self::whereHas('kategori', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->with('kategori', 'tags', 'user')->latest()->get();
+    }
+
+    public static function showByTag($slug)
+    {
+        return self::whereHas('tags', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->with('kategori', 'tags', 'user')->latest()->get();
+    }
+
+    public static function search($cari)
+    {
+        return self::where('title', 'like', "%{$cari}%")
+            ->orWhere('description', 'like', "%{$cari}%")
+            ->with(['kategori', 'tags', 'user']) // eager load biar ga N+1
+            ->where('is_active', true)
+            ->latest()
+            ->get();
     }
 }

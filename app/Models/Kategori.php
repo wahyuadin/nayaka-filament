@@ -19,4 +19,9 @@ class Kategori extends Model
     {
         return $id ? self::find($id)->get() : self::latest()->get();
     }
+
+    public static function showBySlug($slug)
+    {
+        return self::where('slug', $slug)->with('kegiatans')->latest()->get();
+    }
 }

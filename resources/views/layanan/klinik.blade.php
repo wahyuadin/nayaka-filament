@@ -81,52 +81,7 @@
 
         // --- INISIALISASI DATATABLES ---
         $("#klinikTable").DataTable({
-            // Mengatur layout untuk menempatkan tombol di atas kiri tabel
-            layout: {
-                topStart: {
-                    buttons: [{
-                            extend: "pdfHtml5"
-                            , text: '<i class="bi bi-file-earmark-pdf-fill"></i> PDF'
-                            , className: "btn-danger"
-                            , title: "Klinik Nayaka Husada"
-                            , filename: function() {
-                                return generateFilename("PDF");
-                            }
-                            , orientation: "landscape"
-                            , pageSize: "A4"
-                            , customize: function(doc) {
-                                // Pastikan semua kolom memiliki lebar proporsional
-                                var colCount = doc.content[1].table.body[0].length;
-                                var widths = Array(colCount).fill("*"); // ['*', '*', '*', ...]
-                                doc.content[1].table.widths = widths;
-
-                                // Tengah-kan teks di semua kolom
-                                var tableBody = doc.content[1].table.body;
-                                for (var i = 0; i < tableBody.length; i++) {
-                                    for (var j = 0; j < tableBody[i].length; j++) {
-                                        tableBody[i][j].alignment = "center";
-                                    }
-                                }
-
-                                // Optional styling
-                                doc.styles.tableHeader.alignment = "center";
-                                doc.styles.tableHeader.fontSize = 10;
-                                doc.defaultStyle.fontSize = 9;
-
-                                // Optional: hilangkan margin default jika perlu
-                                doc.content[1].margin = [0, 0, 0, 0];
-                            }
-                        , }
-                        , {
-                            extend: "print"
-                            , text: '<i class="bi bi-printer-fill"></i> Print'
-                            , className: "btn-secondary"
-                            , title: "Klinik Nayaka Husada"
-                        , }
-                    , ]
-                , }
-            , }
-            , language: {
+            language: {
                 url: "https://cdn.datatables.net/plug-ins/2.0.8/i18n/id.json"
             , }
         , });
