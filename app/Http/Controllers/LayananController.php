@@ -31,19 +31,16 @@ class LayananController extends Controller
 
     public function provider()
     {
-        // Logic for provider layanan
         return view('layanan.provider', ['data' => provider::showData()]);
     }
 
     public function inhouse()
     {
-        // Logic for inhouse layanan
         return view('layanan.inhouse', ['data' => Inhouse::showData()]);
     }
 
     public function download()
     {
         return view('layanan.download', ['data' => Formulir::showData()]);
-        // Logic for download layanan
     }
 }
