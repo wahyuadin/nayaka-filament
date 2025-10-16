@@ -22,6 +22,15 @@ class Video extends Model
 
     public static function paginate()
     {
-        return self::with('user')->latest()->paginate(6);
+        return self::with('user')->paginate(2);
+    }
+
+    public static function searchByRequest($request)
+    {
+        return self::where('title', 'like', "%{$request}%")
+            ->orWhere('description', 'like', "%{$request}%")
+            ->with(['user'])
+            ->latest()
+            ->get();
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Formulir;
 use App\Models\Inhouse;
 use App\Models\provider;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
 
 class LayananController extends Controller
 {
@@ -31,16 +32,40 @@ class LayananController extends Controller
 
     public function provider()
     {
-        return view('layanan.provider', ['data' => provider::showData()]);
+        // Logic for provider layanan
+        return view('layanan.provider');
     }
 
     public function inhouse()
     {
-        return view('layanan.inhouse', ['data' => Inhouse::showData()]);
+        // Logic for inhouse layanan
+        return view('layanan.inhouse');
     }
 
     public function download()
     {
         return view('layanan.download', ['data' => Formulir::showData()]);
+        // Logic for download layanan
+    }
+
+    // ======================================
+    // SERVER SITE
+    // ======================================
+    public function serversiteProvider()
+    {
+        $data = Provider::showData();
+        return DataTables::of($data)->addIndexColumn()->make(true);
+    }
+
+    public function serversiteKlinik()
+    {
+        $data = Clinic::showData();
+        return DataTables::of($data)->addIndexColumn()->make(true);
+    }
+
+    public function serversiteInhouse()
+    {
+        $data = Inhouse::showData();
+        return DataTables::of($data)->addIndexColumn()->make(true);
     }
 }

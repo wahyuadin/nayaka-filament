@@ -82,7 +82,6 @@ class KegiatanResource extends Resource
             DatePicker::make('date')
                 ->label('Tanggal')
                 ->default(now())
-                ->disabled()
                 ->dehydrated()
                 ->required(),
 

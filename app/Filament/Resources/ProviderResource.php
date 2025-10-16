@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Exports\ClinicExporter;
+use App\Filament\Exports\ProviderExporter;
 use App\Filament\Imports\ProviderImporter;
 use App\Filament\Resources\ProviderResource\Pages;
-use App\Models\Provider;
+use App\Models\provider;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -108,7 +108,7 @@ class ProviderResource extends Resource
             ])
             ->headerActions([
                 ImportAction::make()->importer(ProviderImporter::class),
-                ExportAction::make()->exporter(ClinicExporter::class)
+                ExportAction::make()->exporter(ProviderExporter::class)
             ]);
     }
 

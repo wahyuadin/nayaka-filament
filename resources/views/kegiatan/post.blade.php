@@ -13,8 +13,13 @@
                 </li>
             </ul>
         </div>
+        <div class="entry-img mb-4">
+            <img src="{{ asset('storage/' . $data->image ) }}" alt="{{ $data->title }}" class="img-fluid rounded">
+        </div>
+        <div class="entry-content">
+            {!! $data->content ?? '<p>Error</p>' !!}
+        </div>
 
-        {!! $data->content ?? '<p>Error</p>' !!}
 
         <div class="entry-footer mt-4 pt-4 border-top">
             <div class="tags">

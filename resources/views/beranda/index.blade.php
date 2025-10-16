@@ -6,7 +6,7 @@
         <div class="carousel-inner">
             @foreach ($slide as $slideItem)
             <div class="carousel-item {{ $slideItem->first_slide == 1 ? 'active' : '' }}">
-                <img src="{{ asset('storage/' . $slideItem->image) }}" class="d-block w-100" alt="{{ $slideItem->nama }}" />
+                <img src="{{ asset('storage/' . $slideItem->image) }}" loading="lazy" class="d-block" width="300" height="" alt="{{ $slideItem->nama }}" />
             </div>
             @endforeach
         </div>
@@ -21,65 +21,107 @@
     </div>
 </div>
 <!-- End Hero-->
+
+<!-- Komponen HTML Blade -->
 <div data-aos="fade-center" data-aos-delay="200">
     <p class="fw-semibold text-center">Lead Management</p>
-    <div class="d-flex flex-wrap justify-content-center align-items-center gap-4" style="margin-bottom: 30px">
+
+    <div class="d-flex flex-nowrap justify-content-center align-items-center gap-4">
         @foreach ($lead_management as $lead)
-        <img src="{{ asset('storage/' . $lead->image) }}" height="50" alt="{{ $lead->image }}" />
+        <img src="{{ asset('storage/' . $lead->image) }}" alt="{{ $lead->image }}" class="lead-logo" />
         @endforeach
     </div>
 </div>
+<!-- ======= Stats =======-->
+<section class="stats__v3 mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex flex-nowrap justify-content-center align-items-center gap-4 content rounded-4 position-relative overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                    <div class="rounded-borders">
+                        <div class="rounded-border-1"></div>
+                        <div class="rounded-border-2"></div>
+                        {{-- <div class="rounded-border-3"></div> --}}
+                    </div>
+
+                    <div class="stat-item col-sm-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="fs-1 fw-bold">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="550" data-purecounter-duration="1"></span><span style="color:var(--purecounter)">K+</span>
+                        </h3>
+                        <p class="mb-0" style="font-family: Montserrat, sans-serif;">Peserta Aktif</p>
+                    </div>
+
+                    <div class="stat-item col-sm-6 text-center" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="fs-1 fw-bold">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="3700" data-purecounter-duration="1"></span><span style="color:var(--purecounter)">+</span>
+                        </h3>
+                        <p class="mb-0" style="font-family: Montserrat, sans-serif;">Provider Kerjasama</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="testimonial-section" style="background-color: #f7faff" data-aos="fade-right" data-aos-delay="200">
     <div class="container text-center">
         <!-- Rating & Logos -->
         <!-- partner -->
-        <section class="py-5">
+        <section class="pagination-wrapper">
             <div class="container text-center">
-                <h1 class="mb-4" style="
+                <h2 class="mb-4" style="
                     font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
                       'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                   ">
-                    <b>Partner Kami</b>
-                </h1>
+                    <b>Our Clients</b>
+                </h2>
                 <div class="logo-marquee-horizontal">
                     <div class="logo-track-horizontal">
                         <!-- Logo baris pertama -->
                         <div class="logo-group-horizontal">
                             @foreach ($partner_kami as $pk)
-                            <img src="{{ asset('storage/' . $pk->image) }}" alt="{{ $pk->image }}" />
+                            <img src="{{ asset('storage/' . $pk->image) }}" loading="lazy" width="" width="" alt="{{ $pk->image }}" style="width: {{ $pk->width ?? '' }}; height: {{ $pk->height ?? '' }}" />
                             @endforeach
                         </div>
                         <!-- Logo baris kedua (copy) -->
                         <div class="logo-group-horizontal">
                             @foreach ($partner_kami as $pk)
-                            <img src="{{ asset('storage/' . $pk->image) }}" alt="{{ $pk->image }}" />
+                            <img src="{{ asset('storage/' . $pk->image) }}" loading="lazy" width="" width="" alt="{{ $pk->image }}" style="width: {{ $pk->width ?? '' }}; height: {{ $pk->height ?? '' }}" />
                             @endforeach
                         </div>
                     </div>
+                    @php
+                    $clientDetail = App\Models\ClientDetail::where('is_active', true)->count();
+                    @endphp
+                    @if ($clientDetail != 0)
+                    <a href="{{ route('client.index') }}" class="btn btn-primary rounded-border-3 btn-sm mt-5">
+                        <i class="fa-regular fa-eye"></i> Daftar Client
+                    </a>
+                    @endif
                 </div>
             </div>
         </section>
         <!-- partner -->
-        <section class="py-5">
+        <section class="pagination-wrapper">
             <div class="container text-center">
-                <h1 class="mb-4" style="
+                <h2 class="mb-4" style="
                     font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
                       'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
                   ">
-                    <b>Provider Kami</b>
-                </h1>
+                    <b>Our Providers</b>
+                </h2>
                 <div class="logo-marquee-horizontal-kiri">
                     <div class="logo-track-horizontal-kiri">
                         <!-- Logo baris pertama -->
                         <div class="logo-group-horizontal-kiri">
                             @foreach ($provider_kami as $provider)
-                            <img src="{{ asset('storage/' . $provider->image) }}" alt="{{ $provider->image }}" />
+                            <img src="{{ asset('storage/' . $provider->image) }}" loading="lazy" width="" width="" alt="{{ $provider->image }}" />
                             @endforeach
                         </div>
                         <!-- Logo baris kedua (copy) -->
                         <div class="logo-group-horizontal-kiri">
                             @foreach ($provider_kami as $provider)
-                            <img src="{{ asset('storage/' . $provider->image) }}" alt="{{ $provider->image }}" />
+                            <img src="{{ asset('storage/' . $provider->image) }}" loading="lazy" width="" width="" alt="{{ $provider->image }}" />
                             @endforeach
                         </div>
                     </div>
@@ -103,7 +145,7 @@
         <div class="row" data-aos="fade-up" data-aos-delay="200">
             <div class="col-md-6 order-1 order-md-2">
                 <div class="img-wrap position-relative">
-                    <img class="img-fluid rounded-4" src="assets/tentang_nakaya.png" alt="" data-aos="fade-up" data-aos-delay="300" />
+                    <img class="img-fluid rounded-4" loading="lazy" width="" width="" src="{{ asset('storage/' . $about_us->image) }}" alt="Tentang Nayaka Era Husada" data-aos="fade-up" data-aos-delay="300" />
                 </div>
             </div>
             <div class="col-md-6 order-2 order-md-1">
@@ -159,7 +201,7 @@
                                 <div class="col-lg-11">
                                     <div class="row" data-aos="fade-in" data-aos-delay="200">
                                         @isset($why_us->image)
-                                        <img src="{{ asset('storage/' . ($why_us->image ?? 'default.png')) }}" style="border-radius: 5%" class="img-fluid mb-4" />
+                                        <img src="{{ asset('storage/' . ($why_us->image ?? 'default.png')) }}" alt="Tentang Kami" style="border-radius: 5%" loading="lazy" width="" width="" class="img-fluid mb-4" />
                                         @endisset
                                     </div>
                                 </div>
@@ -192,7 +234,7 @@
             <div class="col-md-3">
                 <div class="item__wrap p-4 rounded-4 h-100 shadow-xl d-flex flex-column align-items-center">
                     <div class="item__image mb-3 text-center">
-                        <img src="{{ asset('storage/' . ($produkItem->image ?? 'default.png')) }}" width="{{ $produkItem->width_image ?? '' }}" height="{{ $produkItem->height_image ?? '' }}" alt="{{ $produkItem->title }}" class="img-fluid rounded" />
+                        <img src="{{ asset('storage/' . ($produkItem->image ?? 'default.png')) }}" width="{{ $produkItem->width_image ?? '' }}" height="{{ $produkItem->height_image ?? '' }}" alt="{{ $produkItem->title }}" loading="lazy" class="img-fluid rounded" />
                     </div>
                     <h3 class="item__title mb-2">{{ $produkItem->title }}</h3>
                     <div class="item__desc mb-3">
@@ -244,7 +286,7 @@
                                 @foreach ($kegiatan as $kegiatanItem)
                                 <div class="col-md-4">
                                     <div class="service-card rounded-4 h-100 shadow-sm bg-white">
-                                        <img src="{{ asset('storage/' . $kegiatanItem->image) }}" alt="Digital Payments Icon" class="card-img-top fade-hover rounded-2" />
+                                        <img src="{{ asset('storage/' . $kegiatanItem->image) }}" loading="lazy" width="" width="" alt="Digital Payments Icon" class="card-img-top fade-hover rounded-2" />
                                         <div class="p-4">
                                             <h3 class="fs-5 mb-3">
                                                 {{ ucwords($kegiatanItem->title) }}
@@ -275,30 +317,33 @@
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                 <div class="row g-4 justify-content-center">
                     @foreach ($video as $videoItem)
+                    @php
+                    preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $videoItem->link_youtube, $matches);
+                    $videoId = $matches[1] ?? null;
+                    @endphp
+
                     <div class="col-md-6 col-lg-4">
-                        <div class="service-card rounded-4 h-100 shadow-sm bg-white d-flex flex-column align-items-center">
-                            <div class="ratio ratio-16x9 rounded-2 w-100">
-                                <iframe src="{{ $videoItem->link_youtube }}" title="{{ $videoItem->title }}" allowfullscreen></iframe>
-                            </div>
+                        <div class="service-card rounded-4 shadow-sm bg-white d-flex flex-column align-items-center">
+                            <a href="{{ $videoItem->link_youtube }}" target="_blank" rel="noopener" class="d-block position-relative rounded-2 overflow-hidden ratio ratio-16x9 w-100">
+                                <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg" alt="{{ $videoItem->title }}" class="img-fluid w-100 h-100 object-fit-cover" loading="lazy">
+                                <span class="yt-play-btn"></span>
+                            </a>
                             <div class="p-4 w-100">
                                 <h3 class="fs-5 mb-3">{{ $videoItem->title }}</h3>
-                                <p>
-                                    {{ $videoItem->description }}
-                                </p>
+                                <p>{{ Str::limit($videoItem->description, 120) }}</p>
                                 <a href="{{ $videoItem->link_youtube }}" target="_blank" class="special-link d-inline-flex align-items-center text-decoration-none">
-                                    <i class="bi bi-arrow-right-short me-1"></i>Lihat di
-                                    YouTube
+                                    <i class="bi bi-arrow-right-short me-1"></i>Lihat di YouTube
                                 </a>
                             </div>
                         </div>
                     </div>
                     @endforeach
-                </div>
-                <div class="d-flex justify-content-center mt-5">
-                    <a href="{{ route('video.index') }}" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
-                        <i class="bi bi-eye"></i>
-                        Lihat Semua
-                    </a>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a href="https://www.nayakaerahusada.com/video" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+                            <i class="bi bi-eye"></i>
+                            Lihat Semua
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -307,7 +352,7 @@
 <!-- Services-->
 
 <!-- ======= Testimonials =======-->
-<section class="section testimonials__v2" id="testimonials">
+<section class="section-padding-top testimonials__v2 mb-5" id="testimonials">
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-5 mx-auto text-center">
@@ -341,7 +386,8 @@
 <!-- Testimonials-->
 
 <!-- ======= FAQ =======-->
-<section class="section faq__v2" id="faqu" data-aos="fade-right" data-aos-delay="30">
+@if(!empty($faq) && $faq->count())
+<section class="section-padding-top faq__v2" id="faqu" data-aos="fade-right" data-aos-delay="30">
     <div class="container">
         <div class="row mb-4">
             <div class="col-md-6 col-lg-7 mx-auto text-center">
@@ -375,13 +421,19 @@
                         </div>
                         @endforeach
                     </div>
-
+                    <div class="d-flex justify-content-center mt-4">
+                        <a href="{{ route('faq.index') }}" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+                            <i class="bi bi-eye"></i>
+                            Lihat Semua
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- End FAQ-->
 </section>
+@endif
 <!-- End FAQ-->
 
 <!-- ======= Contact =======-->
@@ -396,247 +448,160 @@
                 <!-- s -->
             </div>
         </div>
-        <div class="row">
-            <style>
-                /* Tambahkan CSS ini ke file CSS Anda atau di dalam tag <style> */
-                .contact-item {
-                    padding: 20px;
-                    background-color: #f8f9fa;
-                    /* Warna latar belakang ringan */
-                    border-radius: 12px;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-                    transition: all 0.3s ease;
-                    text-decoration: none;
-                    /* Hilangkan underline pada link */
-                    color: inherit;
-                    /* Warisi warna teks */
-                    display: flex;
-                    /* Pastikan flexbox untuk item di dalamnya */
-                    align-items: center;
-                    /* Sejajarkan item secara vertikal */
-                }
 
-                .contact-item:hover {
-                    transform: translateY(-5px);
-                    /* Efek naik sedikit saat dihover */
-                    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-                    /* Bayangan lebih gelap saat dihover */
-                    background-color: #e9ecef;
-                    /* Warna latar belakang sedikit lebih gelap saat dihover */
-                }
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-                .contact-item .icon {
-                    font-size: 2.2rem;
-                    /* Ukuran ikon lebih besar */
-                    color: #007bff;
-                    /* Warna ikon yang menonjol (biru Bootstrap) */
-                    margin-right: 15px;
-                    /* Jarak antara ikon dan teks */
-                    line-height: 1;
-                    /* Pastikan ikon tidak memengaruhi tinggi baris */
-                }
-
-                .contact-item span strong {
-                    display: block;
-                    /* Pastikan nomor/email di baris baru */
-                    font-size: 1.15rem;
-                    /* Ukuran teks lebih besar untuk informasi penting */
-                    margin-top: 5px;
-                    /* Jarak antara label dan informasi */
-                }
-
-                .contact-item address {
-                    margin-bottom: 0;
-                    /* Hapus margin bawah default address */
-                    font-size: 1.15rem;
-                    line-height: 1.5;
-                }
-
-                .contact-item .label {
-                    font-size: 0.9rem;
-                    /* Ukuran teks label lebih kecil */
-                    color: #6c757d;
-                    /* Warna teks label abu-abu */
-                    text-transform: uppercase;
-                    /* Membuat label uppercase */
-                    letter-spacing: 0.5px;
-                    /* Sedikit spasi huruf untuk label */
-                }
-
-                /* Penyesuaian untuk tampilan mobile */
-                @media (max-width: 767.98px) {
-                    .contact-item {
-                        flex-direction: column;
-                        /* Tumpuk ikon dan teks di mobile */
-                        text-align: center;
-                        padding: 15px;
-                    }
-
-                    .contact-item .icon {
-                        margin-right: 0;
-                        /* Hapus margin kanan ikon */
-                        margin-bottom: 10px;
-                        /* Tambah margin bawah ikon */
-                    }
-                }
-
-            </style>
-
-            <div class="col-md-12">
-                <div class="row justify-content-center g-4">
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
-                        <a href="tel:+62215260518" class="contact-item d-block">
-                            <div class="icon">
-                                <i class="bi bi-telephone"></i>
-                            </div>
-                            <div>
-                                <span class="d-block label">Hubungi Kami</span>
-                                <strong>021-5260518</strong>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <a href="mailto:pusat@nayakaerahusada.com" class="contact-item d-block">
-                            <div class="icon">
-                                <i class="bi bi-send"></i>
-                            </div>
-                            <div>
-                                <span class="d-block label">Kirim Email</span>
-                                <strong>pusat@nayakaerahusada.com</strong>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="200">
-                        <div class="contact-item">
-                            <div class="icon">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-                            <div>
-                                <span class="d-block label">Kantor Pusat</span>
-                                <address class="fw-bold">
-                                    Gedung DPK BPJS KETENAGAKERJAAN <br />
-                                    Lt. 2 Jl. Tangkas Baru No.1 Jakarta Selatan 12930
-                                </address>
-                            </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card card-contact h-100 shadow-sm rounded-4 p-4 text-center">
+                    <div class="card-body">
+                        <div class="icon-wrapper">
+                            <i class="bi bi-telephone"></i>
                         </div>
+                        <h5 class="card-title fw-bold mb-2">Hubungi Kami</h5>
+                        <p class="card-text">
+                            <a href="tel:0215260518">021-5260518</a>
+                        </p>
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-md-6">
-                                                                                                                                                            <div class="d-flex gap-5 flex-column">
-                                                                                                                                                              <div
-                                                                                                                                                                class="d-flex align-items-start gap-3"
-                                                                                                                                                                data-aos="fade-up"
-                                                                                                                                                                data-aos-delay="0"
-                                                                                                                                                              >
-                                                                                                                                                                <div class="icon d-block">
-                                                                                                                                                                  <i class="bi bi-telephone"></i>
-                                                                                                                                                                </div>
-                                                                                                                                                                <span>
-                                                                                                                                                                  <span class="d-block">TELEPON SEKARANG</span
-                                                                                                                                                                  ><strong>021-5260518</strong></span
-                                                                                                                                                                >
-                                                                                                                                                              </div>
-                                                                                                                                                              <div
-                                                                                                                                                                class="d-flex align-items-start gap-3"
-                                                                                                                                                                data-aos="fade-up"
-                                                                                                                                                                data-aos-delay="100"
-                                                                                                                                                              >
-                                                                                                                                                                <div class="icon d-block"><i class="bi bi-send"></i></div>
-                                                                                                                                                                <span>
-                                                                                                                                                                  <span class="d-block">EMAIL KAMI KAPAN SAJA</span
-                                                                                                                                                                  ><strong>pusat@nayakaerahusada.com </strong></span
-                                                                                                                                                                >
-                                                                                                                                                              </div>
-                                                                                                                                                              <div
-                                                                                                                                                                class="d-flex align-items-start gap-3"
-                                                                                                                                                                data-aos="fade-up"
-                                                                                                                                                                data-aos-delay="200"
-                                                                                                                                                              >
-                                                                                                                                                                <div class="icon d-block">
-                                                                                                                                                                  <i class="bi bi-geo-alt"></i>
-                                                                                                                                                                </div>
-                                                                                                                                                                <span>
-                                                                                                                                                                  <span class="d-block">KANTOR PUSAT</span>
-                                                                                                                                                                  <address class="fw-bold">
-                                                                                                                                                                    Gedung DPK BPJS KETENAGAKERJAAN <br />
-                                                                                                                                                                    Lt. 2 Jl. Tangkas Baru No.1 Jakarta Selatan 12930
-                                                                                                                                                                  </address></span
-                                                                                                                                                                >
-                                                                                                                                                              </div>
-                                                                                                                                                            </div>
-                                                                                                                                                          </div>
-                                                                                                                                                          <div class="col-md-6">
-                                                                                                                                                            <div
-                                                                                                                                                              class="form-wrapper"
-                                                                                                                                                              data-aos="fade-up"
-                                                                                                                                                              data-aos-delay="300"
-                                                                                                                                                            >
-                                                                                                                                                              <form id="contactForm">
-                                                                                                                                                                <div class="row gap-3 mb-3">
-                                                                                                                                                                  <div class="col-md-12">
-                                                                                                                                                                    <label class="mb-2" for="name">Nama</label>
-                                                                                                                                                                    <input
-                                                                                                                                                                      class="form-control"
-                                                                                                                                                                      id="name"
-                                                                                                                                                                      type="text"
-                                                                                                                                                                      name="name"
-                                                                                                                                                                      required
-                                                                                                                                                                      placeholder="Masukkan Nama Lengkap"
-                                                                                                                                                                    />
-                                                                                                                                                                  </div>
-                                                                                                                                                                  <div class="col-md-12">
-                                                                                                                                                                    <label class="mb-2" for="email">Alamat Email</label>
-                                                                                                                                                                    <input
-                                                                                                                                                                      class="form-control"
-                                                                                                                                                                      id="email"
-                                                                                                                                                                      type="email"
-                                                                                                                                                                      name="email"
-                                                                                                                                                                      required
-                                                                                                                                                                      placeholder="Masukkan Alamat Email"
-                                                                                                                                                                    />
-                                                                                                                                                                  </div>
-                                                                                                                                                                </div>
-                                                                                                                                                                <div class="row gap-3 mb-3">
-                                                                                                                                                                  <div class="col-md-12">
-                                                                                                                                                                    <label class="mb-2" for="subject">Subjek</label>
-                                                                                                                                                                    <input
-                                                                                                                                                                      class="form-control"
-                                                                                                                                                                      id="subject"
-                                                                                                                                                                      type="text"
-                                                                                                                                                                      name="subject"
-                                                                                                                                                                      placeholder="Masukkan Subjek"
-                                                                                                                                                                    />
-                                                                                                                                                                  </div>
-                                                                                                                                                                </div>
-                                                                                                                                                                <div class="row gap-3 gap-md-0 mb-3">
-                                                                                                                                                                  <div class="col-md-12">
-                                                                                                                                                                    <label class="mb-2" for="message">Pesan</label>
-                                                                                                                                                                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Masukkan Pesan"
-                                                                                                                                                                        required=""></textarea>
-                                                                                                                                                                  </div>
-                                                                                                                                                                </div>
-                                                                                                                                                                <button class="btn btn-primary fw-semibold" type="submit">
-                                                                                                                                                                  <i class="bi bi-send me-1"></i> Kirim Pesan
-                                                                                                                                                                </button>
-                                                                                                                                                              </form>
-                                                                                                                                                              <div
-                                                                                                                                                                class="mt-3 d-none alert alert-success"
-                                                                                                                                                                id="successMessage"
-                                                                                                                                                              >
-                                                                                                                                                                Message sent successfully!
-                                                                                                                                                              </div>
-                                                                                                                                                              <div class="mt-3 d-none alert alert-danger" id="errorMessage">
-                                                                                                                                                                Message sending failed. Please try again later.
-                                                                                                                                                              </div>
-                                                                                                                                                            </div>
-                                                                                                                                                          </div> -->
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="card card-contact h-100 shadow-sm rounded-4 p-4 text-center">
+                    <div class="card-body">
+                        <div class="icon-wrapper">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-2">Kirim Email</h5>
+                        <p class="card-text">
+                            <a href="mailto:pusat@nayakaerahusada.com">pusat@nayakaerahusada.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+                <div class="card card-contact h-100 shadow-sm rounded-4 p-4 text-center">
+                    <div class="card-body">
+                        <div class="icon-wrapper">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-2">Kantor Pusat</h5>
+                        <p class="card-text text-muted" style="text-align:center">
+                            Gedung DPK BPJS KETENAGAKERJAAN
+                            Lt. 2 Jl. Tangkas Baru No.1
+                            Jakarta Selatan 12930
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 @include('beranda.produk-modal.index')
 @include('beranda.about-us.index')
+@push('style')
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    /* Kustomisasi kartu untuk tampilan yang lebih elegan */
+    .card-contact {
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: #ffffff;
+    }
+
+    /* Efek hover yang halus: sedikit terangkat dengan bayangan yang lembut */
+    .card-contact:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Wrapper untuk ikon agar memiliki latar belakang lingkaran */
+    .icon-wrapper {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 1.5rem auto;
+        /* Atur margin bawah (mb-4) dan tengahkan */
+        background-color: var(--bs-primary);
+        /* Warna biru primer dengan opacity 10% */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .card-contact:hover .icon-wrapper {
+        background-color: var(--bs-primary);
+        /* Warna biru primer solid saat hover */
+        transform: scale(1.05);
+        /* Sedikit membesar saat hover */
+    }
+
+    /* Styling untuk ikon di dalam wrapper */
+    .icon-wrapper .bi {
+        color: #ffffff;
+        /* Menggunakan warna primer Bootstrap */
+        font-size: 2rem;
+        /* Ukuran ikon 32px */
+        transition: color 0.3s ease;
+    }
+
+    .card-contact:hover .icon-wrapper .bi {
+        color: #ffffff;
+        /* Ubah warna ikon menjadi putih saat hover */
+    }
+
+    /* Memastikan link di dalam kartu terlihat bagus */
+    .card-contact .card-text a {
+        color: #212529;
+        /* Warna teks gelap standar */
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .card-contact .card-text a:hover {
+        color: var(--bs-primary);
+        /* Warna link menjadi biru saat disentuh */
+        text-decoration: underline;
+    }
+
+    .yt-play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 68px;
+        /* sesuaikan */
+        height: 48px;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'><path fill='%23FF0000' d='M66.5 7.1c-.8-3-3.2-5.4-6.2-6.2C55.7 0 34 0 34 0S12.3 0 7.7.9c-3 .8-5.4 3.2-6.2 6.2C0.7 11.7.7 24 .7 24s0 12.3.8 16.9c.8 3 3.2 5.4 6.2 6.2C12.3 48 34 48 34 48s21.7 0 26.3-.9c3-.8 5.4-3.2 6.2-6.2.8-4.6.8-16.9.8-16.9s0-12.3-.8-16.9z'/><path fill='%23FFF' d='M45 24 27 14v20'/></svg>") center/contain no-repeat;
+        opacity: 0.9;
+        /* transparansi ringan */
+        transition: opacity .2s ease;
+    }
+
+    a:hover .yt-play-btn {
+        opacity: 1;
+    }
+
+</style>
+@endpush
+@push('script')
+<script>
+    window.addEventListener('load', function() {
+        const marquees = document.querySelectorAll('.logo-track-horizontal, .logo-track-horizontal-kiri');
+        marquees.forEach((el) => {
+            el.style.animation = 'none';
+            // Paksa reflow
+            el.offsetHeight;
+            el.style.animation = '';
+        });
+    });
+
+</script>
+@endpush
 <!-- End Contact-->
 @endsection

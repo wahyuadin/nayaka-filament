@@ -3,31 +3,42 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\KategoriResource\Pages;
-use App\Filament\Resources\KategoriResource\RelationManagers;
 use App\Models\Kategori;
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Illuminate\Support\Str;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
 class KategoriResource extends Resource
 {
     protected static ?string $model = Kategori::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-hashtag';
+    protected static ?string $navigationGroup = 'Master';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nama_kategori')
+                TextInput::make('nama_kategori')
+                    ->label('Nama Kategori')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                    ->maxLength(255)
+                    ->reactive()
+                    ->placeholder('Masukan Nama Kategori')
+                    ->debounce(500)
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $slug = Str::slug($state);
+                        $set('slug', $slug);
+                    }),
+
+                TextInput::make('slug')
                     ->required()
+                    ->placeholder('Slug Akan keisi Secara Otomatis')
+                    ->readOnly()
                     ->maxLength(255),
             ]);
     }
@@ -57,7 +68,7 @@ class KategoriResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -69,11 +80,16 @@ class KategoriResource extends Resource
         ];
     }
 
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListKategoris::route('/'),
-            'create' => Pages\CreateKategori::route('/create'),
+            // 'create' => Pages\CreateKategori::route('/create'),
             'edit' => Pages\EditKategori::route('/{record}/edit'),
         ];
     }

@@ -26,6 +26,7 @@
     --dropdown-hover-bg: #f7f7f7;
     --nav-inverse: #0080ff;
     --nav-inverse-alt: #ffffff;
+    --purecounter: #fff3d3;
 }
 html,
 body {
@@ -98,13 +99,14 @@ h6 {
     scroll-margin-top: 60px;
 }
 .section-padding-top {
-    padding-bottom: 70px;
+    padding-top: 70px;
+    padding-bottom: 1.9rem;
     scroll-margin-top: 60px;
 }
 
 @media (max-width: 767.98px) {
     .section {
-        padding: 40px 0;
+        padding-top: 20px;
     }
 }
 .section.first-section {
@@ -1182,12 +1184,13 @@ h6 {
 }
 
 .stats__v3 .content {
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: var(--bs-primary);
     color: var(--bs-white);
     overflow: hidden;
     position: relative;
+    margin-bottom: 50px;
 }
 .stats__v3 .content h3 {
     color: var(--bs-body-bg);
@@ -1215,6 +1218,31 @@ h6 {
 .stats__v3 .content .rounded-borders .rounded-border-2 {
     right: 40px;
     top: 40px;
+}
+
+.stats__v3 .stat-item {
+    min-width: 150px;
+    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+}
+
+.stats__v3 .purecounter {
+    color: var(--purecounter);
+}
+
+@media (max-width: 576px) {
+    .stats__v3 .content {
+        flex-wrap: nowrap !important;
+        margin-bottom: 10px;
+    }
+
+    .stats__v3 .stat-item h3 {
+        font-size: 1.75rem;
+    }
+
+    .stats__v3 .stat-item p {
+        font-size: 0.9rem;
+    }
 }
 
 .testimonials__v2 .subtitle {
@@ -1683,6 +1711,8 @@ h2.display-4 {
 .logo-track-horizontal-kiri {
     display: flex;
     width: max-content;
+    will-change: transform;
+    visibility: visible !important;
 }
 
 .logo-group-horizontal,
@@ -1711,9 +1741,15 @@ h2.display-4 {
     animation: scroll-horizontal 30s linear infinite;
 }
 
-.logo-marquee-horizontal:hover .logo-track-horizontal {
+/* .logo-marquee-horizontal:hover .logo-track-horizontal {
     animation-play-state: paused;
-}
+} */
+
+/* @media (hover: hover) and (pointer: fine) {
+    .logo-marquee-horizontal:hover .logo-track-horizontal {
+        animation-play-state: paused;
+    }
+} */
 
 @keyframes scroll-horizontal {
     0% {
@@ -1767,7 +1803,7 @@ h2.display-4 {
 @media (max-width: 768px) {
     .logo-group-horizontal img,
     .logo-group-horizontal-kiri img {
-        height: 45px;
+        height: 55px;
     }
 
     .logo-group-horizontal,
@@ -2031,4 +2067,32 @@ h2.display-4 {
 .page-title p {
     font-size: 1.1em;
     color: #666;
+}
+
+.lead-logo {
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    flex-shrink: 1;
+    object-fit: contain;
+}
+
+@media (max-width: 576px) {
+    .lead-logo {
+        max-height: 30px;
+    }
+}
+
+/* Default: Mobile (py-3 = 1rem top & bottom) */
+.pagination-wrapper {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Desktop (py-5 = 3rem top & bottom) */
+@media (min-width: 768px) {
+    .pagination-wrapper {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
 }

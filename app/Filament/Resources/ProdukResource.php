@@ -43,10 +43,11 @@ class ProdukResource extends Resource
                 FileUpload::make('image')
                     ->image()
                     ->required()
+                    ->downloadable()
+                    ->maxSize(1024)
                     ->label('Gambar Produk')
                     ->placeholder('Unggah gambar produk')
                     ->acceptedFileTypes(['image/*'])
-                    ->maxSize(3072) // 3MB
                     ->preserveFilenames()
                     ->directory('produk')
                     ->imageEditor()

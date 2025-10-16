@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en-US">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>{{ config('app.name') }} | NAYAKA ERA HUSADA</title>
-    <meta name="description" content="PT Nayaka Era Husada adalah perusahaan penyedia layanan jaminan pemeliharaan kesehatan dengan pengalaman lebih dari 30 tahun, jaringan provider luas, dan layanan 24/7.">
-    <meta name="keywords" content="Nayaka Era Husada, layanan kesehatan, provider kesehatan, jaminan kesehatan, managed care, rumah sakit, klinik">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{{ config('app.name') }} | Home page</title>
+    
+    <meta name="google-site-verification" content="Gqae4sdo5W1YaTztsOI1DS7lsiYwAbscn0VNIVglLWQ" />
+     <meta name="description" content="PT. Nayaka Era Husada bermula dari mengelola beberapa Balai Pengobatan di Jakarta dan Surabaya yang melayani peserta Program JPK ASTEK dan Masyarakat Umum. Ketika itu Balai Pengobatan dimiliki dan dikelola oleh Yayasan Nayaka Husada yang didirikan oleh Dana Pensiun Perum ASTEK.">
+    <meta name="keywords" content="Nayaka Era Husada, Nayaka, husada, Clinic, Klinik, Apotek, Kesehatan, Reimburce, Kecelakaan, Ditanggung, layanan kesehatan, provider kesehatan, jaminan kesehatan, managed care, rumah sakit, klinik">
     <meta name="author" content="PT Nayaka Era Husada">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Nayaka Era Husada - Penyedia Layanan Kesehatan Terpercaya">
@@ -24,7 +27,7 @@
     <meta name="twitter:image" content="{{ asset('assets/icon.png') }}">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('assets/icon.png') }}" type="image/png" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/icon.png') }}" type="image/png" />
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -221,12 +224,14 @@
         }
 
     </script>
+
     <script>
         function setCookie(name, value, days) {
             const d = new Date();
             d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
-            document.cookie = `${name}=${value}; domain=${location.hostname}; path=/`;
+            const expires = `expires=${d.toUTCString()}`;
+            document.cookie = `${name}=${value}; ${expires}; path=/`;
+            document.cookie = `${name}=${value}; ${expires}; domain=${location.hostname}; path=/`;
         }
 
         function getCookie(name) {
@@ -234,19 +239,9 @@
             return match ? match[2] : null;
         }
 
-        function triggerTranslate(lang) {
-            const langMap = {
-                'id': '/id/id'
-                , 'en': '/id/en'
-            };
-            const googLang = langMap[lang];
-            if (!googLang) return;
-
-            // Set cookie dan hash saat user klik
-            setCookie('googtranslang', lang, 7);
-            setCookie('googtrans', googLang, 7);
-            window.location.hash = `#googtrans(${googLang})`;
-            window.location.reload();
+        function deleteCookie(name) {
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${location.hostname};`;
         }
 
         function updateLanguageUI(lang) {
@@ -264,39 +259,50 @@
             }
         }
 
+        function triggerTranslate(lang) {
+            if (lang === 'id') {
+                // Hapus semua cookie karena default ID
+                deleteCookie('googtrans');
+                deleteCookie('googtranslang');
+                window.location.reload();
+            } else {
+                const langMap = {
+                    'en': '/id/en'
+                };
+                const googLang = langMap[lang];
+
+                setCookie('googtranslang', lang, 7);
+                setCookie('googtrans', googLang, 7);
+                window.location.reload(); // reload tanpa hash
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle klik manual (user memilih bahasa)
-            let selectedLang = getCookie('googtranslang') || 'id';
-            updateLanguageUI(selectedLang);
+            const savedLang = getCookie('googtranslang') || 'id';
+            updateLanguageUI(savedLang);
+
+            // Tambahkan script translate hanya jika bukan ID
+            if (savedLang !== 'id') {
+                const script = document.createElement('script');
+                script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+                script.async = true;
+                document.body.appendChild(script);
+            }
+
+            // Event klik bahasa
             document.querySelectorAll('.lang-switch').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const lang = this.dataset.lang;
-
                     triggerTranslate(lang);
                 });
             });
-
-            // Saat halaman dimuat otomatis, cek apakah user pernah pilih bahasa
-            const savedLang = getCookie('googtranslang');
-            if (savedLang) {
-                const langMap = {
-                    'id': '/id/id'
-                    , 'en': '/id/en'
-                };
-                const googLang = langMap[savedLang];
-
-                // Hanya apply translate jika hash belum ada dan user pernah pilih
-                if (googLang && !window.location.hash.includes('googtrans')) {
-                    setCookie('googtrans', googLang, 0.083333333);
-                    window.location.hash = `#googtrans(${googLang})`;
-                    window.location.reload();
-                }
-            }
         });
 
     </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+
     @stack('script')
 </body>
 

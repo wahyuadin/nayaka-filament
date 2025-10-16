@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('pertanyaan');
             $table->text('jawaban');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

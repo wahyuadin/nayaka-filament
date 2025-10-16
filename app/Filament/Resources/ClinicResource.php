@@ -51,7 +51,7 @@ class ClinicResource extends Resource
                     ->placeholder('Masukan Alamat')
                     ->maxLength(255),
                 TextInput::make('telp')
-                    ->tel()
+                    ->required()
                     ->label('Telepon')
                     ->placeholder('Masukan Nomor Telepon')
                     ->required()

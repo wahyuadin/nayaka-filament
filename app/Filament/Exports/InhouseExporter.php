@@ -16,7 +16,7 @@ class InhouseExporter extends Exporter
         return [
             ExportColumn::make('id')
                 ->label('ID'),
-            ExportColumn::make('kota_id'),
+            ExportColumn::make('kota.nama')->label("Nama Kota"),
             ExportColumn::make('kode_faskes'),
             ExportColumn::make('nama_mitra'),
             ExportColumn::make('alamat'),

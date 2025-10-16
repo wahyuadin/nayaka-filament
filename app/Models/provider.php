@@ -17,6 +17,15 @@ class provider extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::with('kota')->latest()->get();
+        $select = [
+            'nama_mitra',
+            'kota_id',
+            'alamat',
+            'telepon',
+            'fasilitas',
+            'pemanfaatan_peserta',
+            'cob'
+        ];
+        return $id ? self::find($id) : self::select($select)->with('kota')->latest()->get();
     }
 }

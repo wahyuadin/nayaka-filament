@@ -17,14 +17,14 @@ class ProviderExporter extends Exporter
             ExportColumn::make('id')
                 ->label('ID'),
             ExportColumn::make('nama_mitra'),
-            ExportColumn::make('kota_id'),
+            ExportColumn::make('kota.nama')
+                ->label('Kota'),
             ExportColumn::make('alamat'),
             ExportColumn::make('telepon'),
             ExportColumn::make('fasilitas'),
             ExportColumn::make('pemanfaatan_peserta'),
             ExportColumn::make('cob'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            ExportColumn::make('created_at')->label('Dibuat Pada'),
         ];
     }
 

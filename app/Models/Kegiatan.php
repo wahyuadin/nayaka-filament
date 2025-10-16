@@ -26,27 +26,35 @@ class Kegiatan extends Model
     }
 
 
-    public static function showData($id = null)
+    public static function showData($slug = null)
     {
-        return $id ? self::with('kategori', 'tags')->where('slug', $id)->first() : self::where('is_active', true)->with('kategori', 'tags')->latest()->limit(3)->get();
+        if ($slug) {
+            return self::with('kategori', 'tags', 'user')->where('slug', $slug)->first();
+        } else {
+            return self::with('kategori', 'tags', 'user')->where('is_active', true)->orderBy('date', 'DESC')->limit(3)->get();
+        }
     }
 
     public static function paginate()
     {
-        return self::where('is_active', true)->with('kategori', 'tags', 'user')->latest()->paginate(2);
+        return self::with('kategori', 'tags', 'user')->where('is_active', true)->orderBy('date', 'DESC')->paginate(2);
     }
 
     public static function showBySlug($slug)
     {
-        return self::whereHas('kategori', function ($query) use ($slug) {
-            $query->where('slug', $slug);
-        })->with('kategori', 'tags', 'user')->latest()->get();
+        return self::where('is_active', true)
+            ->whereHas('kategori', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            })
+            ->with(['kategori', 'tags', 'user'])
+            ->latest()
+            ->get();
     }
 
     public static function showByTag($slug)
     {
         return self::whereHas('tags', function ($query) use ($slug) {
-            $query->where('slug', $slug);
+            $query->where('slug', $slug)->where('is_active', true);
         })->with('kategori', 'tags', 'user')->latest()->get();
     }
 

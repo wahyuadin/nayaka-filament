@@ -23,7 +23,8 @@ class KontakResource extends Resource
 {
     protected static ?string $model = Kontak::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = 'Master';
 
     public static function form(Form $form): Form
     {
@@ -77,19 +78,13 @@ class KontakResource extends Resource
                     ->required()
                     ->default(1),
                 Toggle::make('is_pusat')
-                    ->label('Pusat')
-                    ->required()
-                    ->default(false)
-                    ->disabled(function (callable $get, $livewire) {
-                        $exists = \App\Models\Kontak::query()
-                            ->where('is_pusat', true)
-                            ->when($livewire->record?->id, function ($query, $id) {
-                                return $query->where('id', '!=', $id);
-                            })
-                            ->exists();
-
-                        return $exists;
-                    }),
+                    ->rule(function () {
+                        return function ($attribute, $value, $fail) {
+                            if ($value === true && \App\Models\Kontak::where('is_pusat', true)->exists()) {
+                                $fail('Sudah ada kontak pusat.');
+                            }
+                        };
+                    })
             ]);
     }
 

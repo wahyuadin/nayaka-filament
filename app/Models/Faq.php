@@ -12,6 +12,11 @@ class Faq extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::orderBy('created_at', 'ASC')->get();
+        return $id ? self::find($id) : self::select('pertanyaan', 'jawaban')->where('is_active', true)->get();
+    }
+
+    public static function showLimit($limit)
+    {
+        return self::limit($limit)->where('is_active', true)->get();
     }
 }

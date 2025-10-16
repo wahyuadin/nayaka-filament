@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('partner_kamis', function (Blueprint $table) {
             $table->id();
             $table->string('image');
+            $table->string('height');
+            $table->string('widht');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

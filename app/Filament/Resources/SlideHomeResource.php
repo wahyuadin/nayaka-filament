@@ -40,8 +40,9 @@ class SlideHomeResource extends Resource
                     ->maxLength(255),
                 FileUpload::make('image')
                     ->image()
-                    ->columnSpanFull()
                     ->downloadable()
+                    ->maxSize(1024)
+                    ->columnSpanFull()
                     ->directory('slide')
                     ->imageEditor()
                     ->imageEditorAspectRatios([

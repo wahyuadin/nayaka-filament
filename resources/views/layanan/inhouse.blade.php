@@ -34,7 +34,7 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Kode Faskes</th>
-                                        <th>Nama Mitra</th>
+                                        <th>Nama Klinik</th>
                                         <th>Kota</th>
                                         <th>Alamat</th>
                                         <th>Telepon</th>
@@ -42,17 +42,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->kode_faskes }}</td>
-                                        <td>{{ $item->nama_mitra }}</td>
-                                        <td>{{ $item->kota->nama }}</td>
-                                        <td>{{ $item->alamat }}</td>
-                                        <td>{{ $item->telepon ?? '-' }}</td>
-                                        <td>{{ $item->fasilitas ?? '-' }}</td>
-                                    </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -66,27 +55,45 @@
 @push('script')
 <script>
     $(document).ready(function() {
-        // --- FUNGSI UNTUK MEMBUAT NAMA FILE DINAMIS ---
-        function generateFilename(type) {
-            const now = new Date();
-            const date =
-                ("0" + now.getDate()).slice(-2) +
-                "-" +
-                ("0" + (now.getMonth() + 1)).slice(-2) +
-                "-" +
-                now.getFullYear();
-            const time =
-                ("0" + now.getHours()).slice(-2) +
-                ("0" + now.getMinutes()).slice(-2);
-            return `${date}_${time}_${type}_jaringan_provider`;
-        }
-
-        // --- INISIALISASI DATATABLES ---
-        $("#inhouseTable").DataTable({
-            language: {
-                url: "https://cdn.datatables.net/plug-ins/2.0.8/i18n/id.json"
-            , }
-        , });
+        $('#inhouseTable').DataTable({
+            processing: true
+            , serverSide: true
+            , language: {
+                processing: "Please wait..."
+            }
+            , ajax: "{{ route('inhouse.serversite') }}"
+            , columns: [{
+                    data: 'DT_RowIndex'
+                    , name: 'DT_RowIndex'
+                    , orderable: false
+                    , searchable: false
+                }
+                , {
+                    data: 'kode_faskes'
+                    , name: 'kode_faskes'
+                }
+                , {
+                    data: 'nama_mitra'
+                    , name: 'nama_mitra'
+                }
+                , {
+                    data: 'kota.nama'
+                    , name: 'kota.nama'
+                }
+                , {
+                    data: 'alamat'
+                    , name: 'alamat'
+                }
+                , {
+                    data: 'telepon'
+                    , name: 'telepon'
+                }
+                , {
+                    data: 'fasilitas'
+                    , name: 'fasilitas'
+                }
+            ]
+        });
     });
 
 </script>

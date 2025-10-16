@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrier;
+use App\Models\ClientDetail;
 use App\Models\DepartementCarrier;
+use App\Models\Faq;
 use App\Models\Kontak;
 use App\Models\LocationCarrier;
+use App\Models\PartnerKami;
 use App\Models\PengalamanCarrier;
 use App\Models\TimManagement;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -48,14 +51,26 @@ class Controller extends BaseController
             $query->where('pengalaman_id', $request->pengalaman_id);
         }
 
-        $data = $query->latest()->get();
+        $data = $query->where('is_active', true)->get();
 
         return response()->json([
             'data' => view('carrier.filter', compact('data'))->render()
         ]);
     }
 
-    public function kontak() {
+    public function kontak()
+    {
         return view('kontak.index', ['data' => Kontak::showData()]);
+    }
+
+    public function faq()
+    {
+        return view('faq.index', ['data' => Faq::showData()]);
+    }
+
+
+    public function client()
+    {
+        return view('client.index', ['data' => ClientDetail::showData()]);
     }
 }

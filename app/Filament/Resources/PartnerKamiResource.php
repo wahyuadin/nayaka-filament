@@ -3,10 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PartnerKamiResource\Pages;
-use App\Filament\Resources\PartnerKamiResource\RelationManagers;
 use App\Models\PartnerKami;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,8 +14,6 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PartnerKamiResource extends Resource
 {
@@ -45,12 +42,31 @@ class PartnerKamiResource extends Resource
                         '4:3',
                         '1:1',
                     ])
+                    ->downloadable()
+                    ->maxSize(1024)
                     ->preserveFilenames()
                     ->columnSpanFull()
                     ->required(),
-
+                TextInput::make('widht')
+                    ->label('Lebar Gambar')
+                    ->placeholder('Masukkan lebar gambar produk')
+                    ->minValue(0)
+                    ->maxValue(10000)
+                    ->required()
+                    ->default('-')
+                    ->helperText('Lebar gambar dalam piksel.'),
+                TextInput::make('height')
+                    ->label('Tinggi Gambar')
+                    ->placeholder('Masukkan tinggi gambar produk')
+                    ->minValue(0)
+                    ->required()
+                    ->maxValue(10000)
+                    ->default('-')
+                    ->helperText('Tinggi gambar dalam piksel.'),
                 Toggle::make('is_active')
                     ->required()
+                    ->columnSpanFull()
+                    ->helperText('Lebar Gambar Portrait Rekomendasi Lebar: - Panjang: 68px. Landscape Lebar: 50px Lebar: -')
                     ->default(true),
             ]);
     }
@@ -63,6 +79,8 @@ class PartnerKamiResource extends Resource
                 IconColumn::make('is_active')
                     ->boolean()
                     ->sortable(),
+                TextColumn::make('height'),
+                TextColumn::make('widht'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

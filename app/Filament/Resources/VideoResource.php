@@ -38,8 +38,8 @@ class VideoResource extends Resource
                     ->placeholder('Masukan Title')
                     ->columnSpanFull(),
                 Textarea::make('description')
-                    ->required()
                     ->placeholder('Masukan Deskripsi')
+                    ->rows(6)
                     ->columnSpanFull(),
                 TextInput::make('link_youtube')
                     ->label('Link YouTube')

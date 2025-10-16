@@ -43,24 +43,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nama_mitra }}</td>
-                                        <td>{{ $item->kota->nama }}</td>
-                                        <td>{{ $item->alamat }}</td>
-                                        <td>{{ $item->telepon ?? '-' }}</td>
-                                        <td>{{ $item->fasilitas }}</td>
-                                        <td>{{ $item->pemanfaatan_peserta }}</td>
-                                        @if($item->cob == 1)
-                                        <td>{{ 'YA' }}</td>
-                                        @elseif($item->cob == 0)
-                                        <td>{{ 'TIDAK' }}</td>
-                                        @else
-                                        <td>{{ '-' }}</td>
-                                        @endif
-                                    </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -74,26 +56,52 @@
 @push('script')
 <script>
     $(document).ready(function() {
-        // --- FUNGSI UNTUK MEMBUAT NAMA FILE DINAMIS ---
-        function generateFilename(type) {
-            const now = new Date();
-            const date =
-                ("0" + now.getDate()).slice(-2) +
-                "-" +
-                ("0" + (now.getMonth() + 1)).slice(-2) +
-                "-" +
-                now.getFullYear();
-            const time =
-                ("0" + now.getHours()).slice(-2) +
-                ("0" + now.getMinutes()).slice(-2);
-            return `${date}_${time}_${type}_jaringan_provider`;
-        }
-
-        // --- INISIALISASI DATATABLES ---
-        $("#providerTable").DataTable({
-            language: {
-                url: "https://cdn.datatables.net/plug-ins/2.0.8/i18n/id.json"
+        $('#providerTable').DataTable({
+            processing: true
+            , serverSide: true
+            , language: {
+                processing: "Please wait..."
             }
+            , ajax: "{{ route('layanan.serversite') }}"
+            , columns: [{
+                    data: 'DT_RowIndex'
+                    , name: 'DT_RowIndex'
+                    , orderable: false
+                    , searchable: false
+                }
+                , {
+                    data: 'nama_mitra'
+                    , name: 'nama_mitra'
+                }
+                , {
+                    data: 'kota.nama'
+                    , name: 'kota'
+                }
+                , {
+                    data: 'alamat'
+                    , name: 'alamat'
+                }
+                , {
+                    data: 'telepon'
+                    , name: 'telepon'
+                }
+                , {
+                    data: 'fasilitas'
+                    , name: 'fasilitas'
+                }
+                , {
+                    data: 'pemanfaatan_peserta'
+                    , name: 'pemanfaatan_peserta'
+                }
+                , {
+                    data: 'cob'
+                    , name: 'cob'
+                    , render: function(data) {
+                        if (data === null || data === undefined || data === '') return '-';
+                        return (data == 1) ? 'YA' : 'TIDAK';
+                    }
+                }
+            ]
         });
     });
 

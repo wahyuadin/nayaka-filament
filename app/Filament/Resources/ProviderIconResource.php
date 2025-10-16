@@ -44,6 +44,8 @@ class ProviderIconResource extends Resource
                         '1:1',
                     ])
                     ->columnSpanFull()
+                    ->downloadable()
+                    ->maxSize(1024)
                     ->reorderable()
                     ->directory('provider')
                     ->image(),

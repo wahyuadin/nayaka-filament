@@ -13,6 +13,9 @@ class SlideHome extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id)->where('is_active', true) : self::where('is_active', true)->orderBy('created_at', 'desc')->get();
+        return $id ? self::find($id)->where('is_active', true) : self::select('id', 'nama', 'image', 'created_at', 'first_slide')
+            ->where('is_active', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();;
     }
 }

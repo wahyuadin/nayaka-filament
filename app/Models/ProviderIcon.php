@@ -16,6 +16,6 @@ class ProviderIcon extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::where('is_active', true)->get();
+        return $id ? self::find($id) : self::select('image')->where('is_active', true)->get();
     }
 }

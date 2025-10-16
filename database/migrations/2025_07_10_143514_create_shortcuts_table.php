@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('link');
             $table->string('icon');
             $table->string('class');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

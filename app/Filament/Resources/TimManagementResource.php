@@ -14,15 +14,14 @@ use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class TimManagementResource extends Resource
 {
     protected static ?string $model = TimManagement::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
+    protected static ?string $navigationGroup = 'Home';
 
     public static function form(Form $form): Form
     {
@@ -122,5 +121,14 @@ class TimManagementResource extends Resource
             'create' => Pages\CreateTimManagement::route('/create'),
             'edit' => Pages\EditTimManagement::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        if (TimManagement::count()) {
+            return false;
+        }
+
+        return true;
     }
 }

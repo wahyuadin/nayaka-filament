@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -35,7 +36,6 @@ class InhouseResource extends Resource
             ->schema([
                 TextInput::make('kode_faskes')
                     ->maxLength(255)
-                    ->required()
                     ->unique(Inhouse::class, 'kode_faskes')
                     ->placeholder('Masukan Kode Faskes'),
                 Select::make('kota_id')
@@ -46,9 +46,14 @@ class InhouseResource extends Resource
                     ->preload(),
                 TextInput::make('nama_mitra')
                     ->required()
-                    ->placeholder('Masukan Nama Mitra')
+                    ->placeholder('Masukkan Nama Mitra')
                     ->columnSpanFull()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->reactive()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function (Set $set, $state) {
+                        $set('nama_mitra', strtoupper($state));
+                }),
                 Textarea::make('alamat')
                     ->placeholder('Masukan Alamat')
                     ->required()

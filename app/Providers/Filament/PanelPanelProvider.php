@@ -25,7 +25,8 @@ class PanelPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('panel')
-            ->path('panel')
+            ->spa()
+            ->path('NYKPanel')
             ->login()
             ->colors([
                 'primary' => Color::Amber,

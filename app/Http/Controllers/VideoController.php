@@ -26,4 +26,12 @@ class VideoController extends Controller
     {
         return $slug;
     }
+
+    public function carivideoPost(Request $request)
+    {
+        return view('video.search', [
+            'search' => $request->search,
+            'data' => Video::searchByRequest($request->search)
+        ]);
+    }
 }

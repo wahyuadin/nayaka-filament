@@ -24,87 +24,94 @@
                 <div class="col-lg-4">
                     <div class="sidebar">
                         <div class="sidebar-item card shadow-sm mb-4">
-                            <div class="card-body">
-                                <h3 class="sidebar-title">Cari Video
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Ketik di sini..." disabled>
-                                        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-                                    </div>
+                            <div class="sidebar-item card shadow-sm mb-4">
+                                <div class="card-body">
+                                    <h3 class="sidebar-title">Cari Video</h3>
+                                    <form action="{{ route('cari.video') }}" method="post" class="mt-3">
+                                        @csrf
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="search" value="{{ request('search') }}" placeholder="Ketik di sini...">
+                                            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+                                        </div>
                                     </form>
+                                </div>
                             </div>
                         </div>
-                        <div class="sidebar-item card shadow-sm mb-4">
+                        @php
+                        $kategoris = App\Models\Kategori::withCount('kegiatans')->get();
+                        $video = \App\Models\Video::limit(3)->latest()->get();
+                        $tag = App\Models\Tag::showData();
+                        @endphp
+                        {{-- <div class="sidebar-item card shadow-sm mb-4">
                             <div class="card-body">
                                 <h3 class="sidebar-title">Kategori</h3>
                                 <div class="mt-3">
                                     <ul class="list-group list-group-flush">
-                                        @php
-                                        $kategoris = App\Models\Kategori::withCount('kegiatans')->get();
-                                        $video = \App\Models\Video::showData();
-                                        $tag = App\Models\Tag::showData();
-                                        @endphp
-                                        {{-- @forelse ($kategoris as $kategori)
+                                        @forelse ($kategoris as $kategori)
                                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                                             <a href="{{ route('kegiatan.kategori.slug', $kategori->slug) }}">
-                                        {{ $kategori->nama_kategori }}
-                                        </a>
-                                        <span>({{ $kategori->kegiatans_count }})</span>
-                                        </li>
-                                        @empty
-                                        <li class="list-group-item text-muted border-0 px-0">Tidak ada kategori.</li>
-                                        @endforelse --}}
-                                        <li class="list-group-item text-muted border-0 px-0">Tidak ada kategori.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sidebar-item card shadow-sm mb-4">
-                            <div class="card-body">
-                                <h3 class="sidebar-title">Video Terbaru</h3>
-                                <div class="mt-3">
-                                    {{-- @forelse ($video as $videoTerbaru)
-                                    <div class="post-item mt-3 d-flex align-items-center">
-                                        <img src="{{ asset('storage/' . $videoTerbaru->image) }}" alt="Gambar recent post 1" class="img-fluid flex-shrink-0" style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;">
-                                    <div class="ms-3">
-                                        <h6><a href="{{ route('kegiatan.slug', $videoTerbaru->title) }}">{{ $videoTerbaru->title }}</a>
-                                        </h6>
-                                        <time datetime="{{ $videoTerbaru->date }}">{{ Carbon\Carbon::parse($videoTerbaru->date)->locale('id')->translatedFormat('d F Y') }}</time>
-                                    </div>
-                                </div>
-                                @empty
-                                <p class="text-muted">
-                                    <i class="bi bi-camera-video"></i> Belum ada video terbaru.
-                                </p>
-                                @endforelse --}}
-                                <p class="text-muted">
-                                    Belum ada video terbaru.
-                                </p>
-                            </div>
-                        </div>
+                        {{ $kategori->nama_kategori }}
+                        </a>
+                        <span>({{ $kategori->kegiatans_count }})</span>
+                        </li>
+                        @empty
+                        <li class="list-group-item text-muted border-0 px-0">Tidak ada kategori.</li>
+                        @endforelse
+                        <li class="list-group-item text-muted border-0 px-0">Tidak ada kategori.</li>
+                        </ul>
                     </div>
-                    <div class="sidebar-item card shadow-sm">
-                        <div class="card-body">
-                            <h3 class="sidebar-title">Tags</h3>
-                            <div class="mt-3">
-                                {{-- @forelse ($kegiatan as $item)
-                                    @forelse ($item->tags as $tag)
-                                        <a href="#" class="btn btn-outline-secondary btn-sm m-1">
-                                            {{ $tag->title }}
-                                </a>
-                                @empty
-                                <span class="text-muted">Tidak ada tag.</span>
-                                @endforelse
-                                @empty
-                                <span class="text-muted">Tidak ada kegiatan.</span>
-                                @endforelse --}}
-                                <span class="text-muted">Tidak ada kegiatan.</span>
+                </div>
+            </div> --}}
+            <div class="sidebar-item card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="sidebar-title">Video Terbaru</h3>
+                    <div class="mt-3">
+                        @forelse ($video as $videoTerbaru)
+                        <div class="post-item mt-3 d-flex align-items-center">
+                            @php
+                            preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $videoTerbaru->link_youtube, $matches);
+                            $videoId = $matches[1] ?? null;
+                            @endphp
 
+                            <a href="{{ $videoTerbaru->link_youtube }}" target="_blank" rel="noopener" class="img-fluid flex-shrink-0" style="width: 80px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg" alt="{{ $videoTerbaru->title }}" class="img-fluid w-100 h-100 object-fit-cover" loading="lazy">
+                            </a>
+                            <div class="ms-3">
+                                <h6><a href="{{ $videoTerbaru->link_youtube }}">{{ $videoTerbaru->title }}</a>
+                                </h6>
+                                <time datetime="{{ $videoTerbaru->date }}">{{ Carbon\Carbon::parse($videoTerbaru->date)->locale('id')->translatedFormat('d F Y') }}</time>
                             </div>
                         </div>
+                        @empty
+                        <p class="text-muted">
+                            <i class="bi bi-camera-video"></i> Belum ada video terbaru.
+                        </p>
+                        @endforelse
                     </div>
                 </div>
             </div>
+            {{-- <div class="sidebar-item card shadow-sm">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">Tags</h3>
+                                <div class="mt-3">
+                                    @forelse ($kegiatan as $item)
+                                    @forelse ($item->tags as $tag)
+                                    <a href="#" class="btn btn-outline-secondary btn-sm m-1">
+                                        {{ $tag->title }}
+            </a>
+            @empty
+            <span class="text-muted">Tidak ada tag.</span>
+            @endforelse
+            @empty
+            <span class="text-muted">Tidak ada kegiatan.</span>
+            @endforelse
+            <span class="text-muted">Tidak ada kegiatan.</span>
         </div>
+</div>
+</div> --}}
+</div>
+</div>
+</div>
 </div>
 </section>
 </div>
@@ -225,6 +232,24 @@
         background: #0172b6;
         color: #fff;
         border-color: #0172b6;
+    }
+
+    .yt-play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 68px;
+        /* sesuaikan */
+        height: 48px;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'><path fill='%23FF0000' d='M66.5 7.1c-.8-3-3.2-5.4-6.2-6.2C55.7 0 34 0 34 0S12.3 0 7.7.9c-3 .8-5.4 3.2-6.2 6.2C0.7 11.7.7 24 .7 24s0 12.3.8 16.9c.8 3 3.2 5.4 6.2 6.2C12.3 48 34 48 34 48s21.7 0 26.3-.9c3-.8 5.4-3.2 6.2-6.2.8-4.6.8-16.9.8-16.9s0-12.3-.8-16.9z'/><path fill='%23FFF' d='M45 24 27 14v20'/></svg>") center/contain no-repeat;
+        opacity: 0.9;
+        /* transparansi ringan */
+        transition: opacity .2s ease;
+    }
+
+    a:hover .yt-play-btn {
+        opacity: 1;
     }
 
 </style>

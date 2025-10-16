@@ -12,6 +12,6 @@ class Shortcut extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::orderBy('created_at', 'ASC')->get();
+        return $id ? self::find($id) : self::where('is_active', true)->orderBy('created_at', 'ASC')->get();
     }
 }

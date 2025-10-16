@@ -1,4 +1,5 @@
-<div class="modal fade" id="aboutusModal{{ $about_us->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="aboutusModal{{ $about_us->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +11,22 @@
             <div class="modal-body">
                 <div data-aos="fade-up" data-aos-delay="100">
                     <div class="row card-row p-4">
-                        {!! $about_us->content !!}
+                        <div class="col-md-6">
+                            <img src="{{ asset('storage/' . $about_us->image_thumbnail) }}" class="img-fluid"
+                                alt="" width="570" />
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="mb-4"
+                                style="
+                                  font-family: noto-serif-semicondensed, serif;
+                                  font-style: normal;
+                                  font-display: swap;
+                                  font-weight: 600;
+                                ">
+                                <b>Tentang Kami</b>
+                            </h3>
+                            {!! $about_us->content !!}
+                        </div>
                     </div>
                     <hr />
                     <div class="row card-row p-4">
@@ -20,7 +36,8 @@
                                     <p style="font-family: 'brush'; font-size: 60px; margin: 0">
                                         Visi
                                     </p>
-                                    <p style="
+                                    <p
+                                        style="
                           font-family: 'brush';
                           font-size: 50px;
                           margin-bottom: 140px;
@@ -64,7 +81,8 @@
 
                     <div class="row card-row p-4 justify-content-center rounded" style="background-color: #f8f9fa">
                         <div class="col-md-12 order-2 order-md-1">
-                            <h3 class="mb-5" style="
+                            <h3 class="mb-5"
+                                style="
                       font-family: noto-serif-semicondensed, serif;
                       font-style: normal;
                       font-display: swap;
@@ -102,7 +120,8 @@
                         </div>
 
                         <div class="col-md-12 order-2 order-md-1">
-                            <h3 class="mb-5" style="
+                            <h3 class="mb-5"
+                                style="
                       font-family: noto-serif-semicondensed, serif;
                       font-style: normal;
                       font-display: swap;
@@ -140,11 +159,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm" style="
+                <button type="button" class="btn btn-sm"
+                    style="
                 background-color: #969090;
                 font-size: 1rem;
                 padding: 0.3rem 0.85rem;
-              " data-bs-dismiss="modal">
+              "
+                    data-bs-dismiss="modal">
                     Close
                 </button>
             </div>

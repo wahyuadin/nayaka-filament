@@ -41,7 +41,7 @@ class AboutHomeResource extends Resource
                         ->required()
                         ->maxLength(255)
                         ->placeholder('Masukan Thumbnail')
-                        ->label('Thumbnail'),
+                        ->label('Thumbnail Label'),
 
                     TextInput::make('title')
                         ->required()
@@ -52,6 +52,7 @@ class AboutHomeResource extends Resource
                         ->required()
                         ->label('Deskripsi'),
                     FileUpload::make('image')
+                        ->label('Gambar Depan')
                         ->image()
                         ->required()
                         ->imageEditor()
@@ -61,11 +62,22 @@ class AboutHomeResource extends Resource
                             '4:3',
                             '1:1',
                         ])
-                        ->directory('about')
-                        ->label('Gambar'),
+                        ->directory('about'),
                     TinyEditor::make('content')
                         ->required()
-                        ->label('Content')
+                        ->label('Content'),
+                    FileUpload::make('image_thumbnail')
+                        ->label('thumbnail')
+                        ->image()
+                        ->required()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            null,
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->directory('thumbnail'),
                 ]),
             ]);
     }

@@ -12,6 +12,6 @@ class LeadManagement extends Model
 
     public static function showData($id = null)
     {
-        return $id ? self::find($id) : self::orderBy('created_at', 'desc')->take(2)->get();
+        return $id ? self::find($id) : self::select('image')->where('is_active', true)->orderBy('created_at', 'desc')->take(2)->get();
     }
 }

@@ -3,11 +3,17 @@
 <div class="col-lg-8">
     <div class="row gy-5">
         @foreach ($data as $dataItem)
+        @php
+        preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $dataItem->link_youtube, $matches);
+        $videoId = $matches[1] ?? null;
+        @endphp
         <div class="col-md-12">
             <article class="entry">
                 <div class="entry-img">
-                    <iframe src="{{ $dataItem->link_youtube }}" title="{{ $dataItem->title }}" allowfullscreen style="width:100%;height:400px;border:none;"></iframe>
-                    {{-- <img src="{{ asset('storage/' . $dataItem->image) }}" alt="Gambar artikel tentang Medical Check-Up" width="{{ $dataItem->width }}" class="img-fluid"> --}}
+                    <a href="{{ $dataItem->link_youtube }}" target="_blank" rel="noopener" class="d-block position-relative rounded-2 overflow-hidden ratio ratio-16x9 w-100">
+                        <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg" alt="{{ $dataItem->title }}" class="img-fluid w-100 h-100 object-fit-cover" loading="lazy">
+                        <span class="yt-play-btn"></span>
+                    </a>
                 </div>
                 <div class="p-4">
                     <h2 class="entry-title">
